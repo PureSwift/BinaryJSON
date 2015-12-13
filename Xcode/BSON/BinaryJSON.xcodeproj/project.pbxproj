@@ -8,9 +8,11 @@
 
 /* Begin PBXBuildFile section */
 		6ED88B521C1E226A00DF07E3 /* BSON.h in Headers */ = {isa = PBXBuildFile; fileRef = 6ED88B511C1E226A00DF07E3 /* BSON.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		6ED88B591C1E226A00DF07E3 /* BSON.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6ED88B4E1C1E226A00DF07E3 /* BSON.framework */; };
+		6ED88B591C1E226A00DF07E3 /* BinaryJSON.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6ED88B4E1C1E226A00DF07E3 /* BinaryJSON.framework */; };
 		6ED88B5E1C1E226A00DF07E3 /* BSONTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6ED88B5D1C1E226A00DF07E3 /* BSONTests.swift */; };
 		6ED88B6C1C1E230700DF07E3 /* BSON.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6ED88B6B1C1E230700DF07E3 /* BSON.swift */; };
+		6ED88B721C1E359200DF07E3 /* JSON.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6ED88B711C1E359200DF07E3 /* JSON.swift */; };
+		6ED88B741C1E35B400DF07E3 /* UnsafePointer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6ED88B731C1E35B400DF07E3 /* UnsafePointer.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -24,13 +26,15 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
-		6ED88B4E1C1E226A00DF07E3 /* BSON.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = BSON.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		6ED88B4E1C1E226A00DF07E3 /* BinaryJSON.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = BinaryJSON.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		6ED88B511C1E226A00DF07E3 /* BSON.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = BSON.h; sourceTree = "<group>"; };
 		6ED88B531C1E226A00DF07E3 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		6ED88B581C1E226A00DF07E3 /* BSONTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = BSONTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		6ED88B581C1E226A00DF07E3 /* BinaryJSONTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = BinaryJSONTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		6ED88B5D1C1E226A00DF07E3 /* BSONTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BSONTests.swift; sourceTree = "<group>"; };
 		6ED88B5F1C1E226A00DF07E3 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		6ED88B6B1C1E230700DF07E3 /* BSON.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BSON.swift; sourceTree = "<group>"; };
+		6ED88B711C1E359200DF07E3 /* JSON.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = JSON.swift; sourceTree = "<group>"; };
+		6ED88B731C1E35B400DF07E3 /* UnsafePointer.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UnsafePointer.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -45,7 +49,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				6ED88B591C1E226A00DF07E3 /* BSON.framework in Frameworks */,
+				6ED88B591C1E226A00DF07E3 /* BinaryJSON.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -65,8 +69,8 @@
 		6ED88B4F1C1E226A00DF07E3 /* Products */ = {
 			isa = PBXGroup;
 			children = (
-				6ED88B4E1C1E226A00DF07E3 /* BSON.framework */,
-				6ED88B581C1E226A00DF07E3 /* BSONTests.xctest */,
+				6ED88B4E1C1E226A00DF07E3 /* BinaryJSON.framework */,
+				6ED88B581C1E226A00DF07E3 /* BinaryJSONTests.xctest */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -103,6 +107,8 @@
 			isa = PBXGroup;
 			children = (
 				6ED88B6B1C1E230700DF07E3 /* BSON.swift */,
+				6ED88B711C1E359200DF07E3 /* JSON.swift */,
+				6ED88B731C1E35B400DF07E3 /* UnsafePointer.swift */,
 			);
 			path = BSON;
 			sourceTree = "<group>";
@@ -128,9 +134,9 @@
 /* End PBXHeadersBuildPhase section */
 
 /* Begin PBXNativeTarget section */
-		6ED88B4D1C1E226A00DF07E3 /* BSON OS X */ = {
+		6ED88B4D1C1E226A00DF07E3 /* BinaryJSON OS X */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = 6ED88B621C1E226A00DF07E3 /* Build configuration list for PBXNativeTarget "BSON OS X" */;
+			buildConfigurationList = 6ED88B621C1E226A00DF07E3 /* Build configuration list for PBXNativeTarget "BinaryJSON OS X" */;
 			buildPhases = (
 				6ED88B491C1E226A00DF07E3 /* Sources */,
 				6ED88B4A1C1E226A00DF07E3 /* Frameworks */,
@@ -141,14 +147,14 @@
 			);
 			dependencies = (
 			);
-			name = "BSON OS X";
+			name = "BinaryJSON OS X";
 			productName = BSON;
-			productReference = 6ED88B4E1C1E226A00DF07E3 /* BSON.framework */;
+			productReference = 6ED88B4E1C1E226A00DF07E3 /* BinaryJSON.framework */;
 			productType = "com.apple.product-type.framework";
 		};
-		6ED88B571C1E226A00DF07E3 /* BSONTests */ = {
+		6ED88B571C1E226A00DF07E3 /* BinaryJSONTests */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = 6ED88B651C1E226A00DF07E3 /* Build configuration list for PBXNativeTarget "BSONTests" */;
+			buildConfigurationList = 6ED88B651C1E226A00DF07E3 /* Build configuration list for PBXNativeTarget "BinaryJSONTests" */;
 			buildPhases = (
 				6ED88B541C1E226A00DF07E3 /* Sources */,
 				6ED88B551C1E226A00DF07E3 /* Frameworks */,
@@ -159,9 +165,9 @@
 			dependencies = (
 				6ED88B5B1C1E226A00DF07E3 /* PBXTargetDependency */,
 			);
-			name = BSONTests;
+			name = BinaryJSONTests;
 			productName = BSONTests;
-			productReference = 6ED88B581C1E226A00DF07E3 /* BSONTests.xctest */;
+			productReference = 6ED88B581C1E226A00DF07E3 /* BinaryJSONTests.xctest */;
 			productType = "com.apple.product-type.bundle.unit-test";
 		};
 /* End PBXNativeTarget section */
@@ -182,7 +188,7 @@
 					};
 				};
 			};
-			buildConfigurationList = 6ED88B481C1E226A00DF07E3 /* Build configuration list for PBXProject "BSON" */;
+			buildConfigurationList = 6ED88B481C1E226A00DF07E3 /* Build configuration list for PBXProject "BinaryJSON" */;
 			compatibilityVersion = "Xcode 3.2";
 			developmentRegion = English;
 			hasScannedForEncodings = 0;
@@ -194,8 +200,8 @@
 			projectDirPath = "";
 			projectRoot = "";
 			targets = (
-				6ED88B4D1C1E226A00DF07E3 /* BSON OS X */,
-				6ED88B571C1E226A00DF07E3 /* BSONTests */,
+				6ED88B4D1C1E226A00DF07E3 /* BinaryJSON OS X */,
+				6ED88B571C1E226A00DF07E3 /* BinaryJSONTests */,
 			);
 		};
 /* End PBXProject section */
@@ -223,6 +229,8 @@
 			buildActionMask = 2147483647;
 			files = (
 				6ED88B6C1C1E230700DF07E3 /* BSON.swift in Sources */,
+				6ED88B741C1E35B400DF07E3 /* UnsafePointer.swift in Sources */,
+				6ED88B721C1E359200DF07E3 /* JSON.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -239,7 +247,7 @@
 /* Begin PBXTargetDependency section */
 		6ED88B5B1C1E226A00DF07E3 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
-			target = 6ED88B4D1C1E226A00DF07E3 /* BSON OS X */;
+			target = 6ED88B4D1C1E226A00DF07E3 /* BinaryJSON OS X */;
 			targetProxy = 6ED88B5A1C1E226A00DF07E3 /* PBXContainerItemProxy */;
 		};
 /* End PBXTargetDependency section */
@@ -346,7 +354,7 @@
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks @loader_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = org.pureswift.BSON;
-				PRODUCT_NAME = BSON;
+				PRODUCT_NAME = BinaryJSON;
 				SKIP_INSTALL = YES;
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 			};
@@ -367,7 +375,7 @@
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks @loader_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = org.pureswift.BSON;
-				PRODUCT_NAME = BSON;
+				PRODUCT_NAME = BinaryJSON;
 				SKIP_INSTALL = YES;
 			};
 			name = Release;
@@ -379,7 +387,7 @@
 				INFOPLIST_FILE = BSONTests/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks @loader_path/../Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = org.pureswift.BSONTests;
-				PRODUCT_NAME = "$(TARGET_NAME)";
+				PRODUCT_NAME = BinaryJSONTests;
 			};
 			name = Debug;
 		};
@@ -390,14 +398,14 @@
 				INFOPLIST_FILE = BSONTests/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks @loader_path/../Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = org.pureswift.BSONTests;
-				PRODUCT_NAME = "$(TARGET_NAME)";
+				PRODUCT_NAME = BinaryJSONTests;
 			};
 			name = Release;
 		};
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
-		6ED88B481C1E226A00DF07E3 /* Build configuration list for PBXProject "BSON" */ = {
+		6ED88B481C1E226A00DF07E3 /* Build configuration list for PBXProject "BinaryJSON" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				6ED88B601C1E226A00DF07E3 /* Debug */,
@@ -406,7 +414,7 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		6ED88B621C1E226A00DF07E3 /* Build configuration list for PBXNativeTarget "BSON OS X" */ = {
+		6ED88B621C1E226A00DF07E3 /* Build configuration list for PBXNativeTarget "BinaryJSON OS X" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				6ED88B631C1E226A00DF07E3 /* Debug */,
@@ -414,7 +422,7 @@
 			);
 			defaultConfigurationIsVisible = 0;
 		};
-		6ED88B651C1E226A00DF07E3 /* Build configuration list for PBXNativeTarget "BSONTests" */ = {
+		6ED88B651C1E226A00DF07E3 /* Build configuration list for PBXNativeTarget "BinaryJSONTests" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				6ED88B661C1E226A00DF07E3 /* Debug */,

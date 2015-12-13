@@ -6,8 +6,13 @@
 //  Copyright © 2015 PureSwift. All rights reserved.
 //
 
+#if os(OSX)
+    import bson
+#elseif os(Linux)
+    import CBSON
+#endif
+
 import SwiftFoundation
-import BSON
 
 /// [Binary JSON](http://bsonspec.org)
 ///
@@ -20,6 +25,27 @@ public struct BSON {
     
     public enum Value {
         
+        case Null
         
+        case Array(BSON.Array)
+        
+        case Document(BSON.Document)
+        
+        case Number(BSON.Number)
+        
+        case Date(Int32)
+        
+        case Data([UInt8])
+    }
+    
+    public enum Number {
+        
+        case Boolean(Bool)
+        
+        case Integer32(Int32)
+        
+        case Integer64(Int64)
+        
+        case Double(DoubleValue)
     }
 }
