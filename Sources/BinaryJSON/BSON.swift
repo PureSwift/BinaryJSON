@@ -15,12 +15,12 @@
 import SwiftFoundation
 
 /// [Binary JSON](http://bsonspec.org)
-///
-///
 public struct BSON {
     
+    /// BSON Array
     public typealias Array = [BSON.Value]
     
+    /// BSON Document
     public typealias Document = [String: BSON.Value]
     
     public enum Value {
@@ -47,5 +47,20 @@ public struct BSON {
         case Integer64(Int64)
         
         case Double(DoubleValue)
+    }
+}
+
+// MARK: - RawValue
+
+public extension BSON.Value {
+    
+    var rawValue: Any {
+        
+        switch self {
+            
+        case .Null: return SwiftFoundation.Null()
+            
+        case let .Array(array):
+        }
     }
 }

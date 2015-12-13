@@ -7,7 +7,7 @@
 //
 
 import XCTest
-@testable import BSON
+@testable import BinaryJSON
 
 class BSONTests: XCTestCase {
     

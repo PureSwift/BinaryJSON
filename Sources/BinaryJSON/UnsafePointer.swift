@@ -14,8 +14,8 @@
 
 public extension BSON {
     
-    /// Unsafe pointer of a BSON document for use with the C library.
+    /// Unsafe pointer of a BSON document for use with the C API.
     ///
-    /// Make sure to use
+    /// Make sure to use ```bson_destroy``` clean up the allocated BSON document.
     typealias UnsafePointer = UnsafeMutablePointer<bson_t>
 }
