@@ -1,0 +1,2 @@
+github "PureSwift/SwiftFoundation"
+github "PureSwift/libbson-xcode" "master"
