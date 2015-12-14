@@ -60,14 +60,14 @@ private extension BSON {
             
         case let .Date(date):
             
-            let secondsSince1970 = Int64(date.timeIntervalSince1970)
+            let milisecondsSince1970 = Int64(date.timeIntervalSince1970 * 1000)
             
-            return bson_append_date_time(documentPointer, key, keyLength, secondsSince1970)
+            return bson_append_date_time(documentPointer, key, keyLength, milisecondsSince1970)
             
         case let .Data(data):
             
             // TODO: Implement Binary Data
-            break
+            return false
             
         case let .Document(childDocument):
             
@@ -82,25 +82,25 @@ private extension BSON {
                     else { return false }
             }
             
-            guard bson_append_document_end(documentPointer, childDocumentPointer)
-                else { return false }
+            return bson_append_document_end(documentPointer, childDocumentPointer)
             
         case let .Array(array):
             
             let childPointer = UnsafeMutablePointer<bson_t>()
             
-            bson_append_array_begin(documentPointer, key, keyLength, childPointer)
+            guard bson_append_array_begin(documentPointer, key, keyLength, childPointer)
+                else { return false }
             
             for (index, subvalue) in array.enumerate() {
                 
                 let indexKey = "\(index)"
                 
-                appendValue(childPointer, key: indexKey, value: subvalue)
+                guard appendValue(childPointer, key: indexKey, value: subvalue)
+                    else { return false }
             }
             
-            bson_append_array_end(documentPointer, childPointer)
+            return bson_append_array_end(documentPointer, childPointer)
         }
-
     }
 }
 

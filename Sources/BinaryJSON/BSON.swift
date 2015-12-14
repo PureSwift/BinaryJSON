@@ -69,6 +69,74 @@ public struct BSON {
         
         case Double(DoubleValue)
     }
+    
+    public struct Binary {
+        
+        public enum Subtype {
+            
+            case Generic
+            case Function
+            case Old
+            case UUID
+            case UUIDOld
+            case MD5
+            case User
+        }
+        
+        public var data: Data
+        
+        public var subtype: Subtype
+        
+        public init(data: Data, subtype: Subtype = .Generic) {
+            
+            self.data = data
+            self.subtype = subtype
+        }
+    }
+    
+    /// Represents a string of Javascript code.
+    public struct Code {
+        
+        public var code: String
+        
+        //public var scope:
+    }
+    
+    public struct MaxKey {
+        
+        public init() { }
+    }
+    
+    public struct MinKey {
+        
+        public init() { }
+    }
+        
+    public struct Timestamp {
+        
+        public var time: UInt32
+        
+        public var increment: UInt32
+        
+        public init(time: UInt32, increment: UInt32) {
+            
+            self.time = time
+            self.increment = increment
+        }
+    }
+    
+    public struct RegularExpression {
+        
+        public var pattern: String
+        
+        public var options: String
+        
+        public init(_ pattern: String, options: String) {
+            
+            self.pattern = pattern
+            self.options = options
+        }
+    }
 }
 
 // MARK: - RawRepresentable
