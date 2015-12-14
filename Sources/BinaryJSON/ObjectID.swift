@@ -20,7 +20,7 @@ public extension BSON {
         
         public typealias ByteValueType = (UInt8, UInt8, UInt8, UInt8, UInt8, UInt8, UInt8, UInt8, UInt8, UInt8, UInt8, UInt8)
         
-        public private(set) var byteValue: ByteValueType
+        public let byteValue: ByteValueType
     }
 }
 
