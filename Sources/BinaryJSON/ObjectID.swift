@@ -16,20 +16,11 @@ import SwiftFoundation
 
 public extension BSON {
     
-    public typealias ObjectID = bson_oid_t
-}
-
-// MARK: - ByteValue
-
-extension BSON.ObjectID: ByteValue {
-    
-    public typealias ByteValueType = (UInt8, UInt8, UInt8, UInt8, UInt8, UInt8, UInt8, UInt8, UInt8, UInt8, UInt8, UInt8)
-    
-    public var byteValue: ByteValueType {
+    public struct ObjectID: ByteValue {
         
-        get { return bytes }
+        public typealias ByteValueType = (UInt8, UInt8, UInt8, UInt8, UInt8, UInt8, UInt8, UInt8, UInt8, UInt8, UInt8, UInt8)
         
-        set { self.bytes = newValue }
+        public private(set) var byteValue: ByteValueType
     }
 }
 
@@ -44,20 +35,24 @@ extension BSON.ObjectID: RawRepresentable {
             else { return nil }
         
         let pointer = UnsafeMutablePointer<bson_oid_t>()
+        defer { pointer.dealloc(1) }
         
         bson_oid_init_from_string_unsafe(pointer, rawValue)
         
-        self = pointer.memory
+        self.byteValue = pointer.memory.bytes
     }
     
     public var rawValue: String {
         
-        var copy = self
+        let oidPointer = UnsafeMutablePointer<bson_oid_t>.alloc(1)
+        defer { oidPointer.dealloc(1) }
+        
+        oidPointer.memory.bytes = self.byteValue
         
         let stringPointer = UnsafeMutablePointer<CChar>.alloc(25)
         defer { stringPointer.dealloc(25) }
         
-        bson_oid_to_string(&copy, stringPointer)
+        bson_oid_to_string(oidPointer, stringPointer)
         
         return String.fromCString(stringPointer)!
     }
@@ -67,12 +62,32 @@ extension BSON.ObjectID: RawRepresentable {
 
 public func ==(lhs: BSON.ObjectID, rhs: BSON.ObjectID) -> Bool {
     
-    var oid1 = lhs
+    var oid1 = bson_oid_t(bytes: lhs.byteValue)
     
-    var oid2 = rhs
+    var oid2 = bson_oid_t(bytes: rhs.byteValue)
     
-    return bson_oid_equal(&oid1, &oid2)
+    return bson_oid_equal_unsafe(&oid1, &oid2)
 }
+
+// MARK: - Hashable
+
+extension BSON.ObjectID: Hashable {
+    
+    public var hashValue: Int {
+        
+        let oidPointer = UnsafeMutablePointer<bson_oid_t>.alloc(1)
+        defer { oidPointer.dealloc(1) }
+        
+        oidPointer.memory.bytes = self.byteValue
+        
+        let hash = bson_oid_hash_unsafe(oidPointer)
+        
+        return Int(hash)
+    }
+}
+
+
+
 
 
 
