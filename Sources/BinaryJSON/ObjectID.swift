@@ -18,6 +18,8 @@ public extension BSON {
     
     public struct ObjectID: ByteValue, RawRepresentable, Equatable, Hashable {
         
+        // MARK: - Properties
+        
         public typealias ByteValueType = (UInt8, UInt8, UInt8, UInt8, UInt8, UInt8, UInt8, UInt8, UInt8, UInt8, UInt8, UInt8)
         
         public var byteValue: ByteValueType {
@@ -29,6 +31,20 @@ public extension BSON {
                 ensureUnique()
                 internalClass.internalPointer.memory.bytes = newValue
             }
+        }
+        
+        // MARK: - Initialization
+        
+        /// Default initializer. 
+        ///
+        /// Creates a new BSON ObjectID from the specified context, or the default context if none is specified.
+        public init(context: Context? = nil) {
+            
+            let internalPointer = UnsafeMutablePointer<bson_oid_t>()
+            
+            bson_oid_init(internalPointer, context?.internalPointer ?? nil)
+            
+            self.internalClass = InternalClass(internalPointer: internalPointer)
         }
         
         // MARK: - Private
