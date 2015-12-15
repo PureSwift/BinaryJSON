@@ -109,7 +109,13 @@ public struct BSON {
         
         public var code: String
         
-        //public var scope:
+        public var scope: BSON.Document?
+        
+        public init(code: String, scope: BSON.Document? = nil) {
+            
+            self.code = code
+            self.scope = scope
+        }
     }
     
     public struct MaxKey {

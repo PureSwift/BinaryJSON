@@ -33,6 +33,7 @@ public extension BSON {
 
 private extension BSON {
     
+    /// Appends a  ```BSON.Value``` to a document pointer. Returns false for if an error ocurred (over max limit).
     static func appendValue(documentPointer: UnsafeMutablePointer<bson_t>, key: String, value: BSON.Value) -> Bool {
         
         let keyLength = Int32(key.utf8.count)
@@ -67,7 +68,21 @@ private extension BSON {
         case let .Data(data):
             
             // TODO: Implement Binary Data
-            return false
+            fatalError("Data not implemented")
+            
+        case let .Code(code):
+            
+            if let scope = code.scope {
+                
+                guard let scopePointer = BSON.unsafePointerFromDocument(scope)
+                    else { return false }
+                
+                return bson_append_code_with_scope(documentPointer, key, keyLength, code.code, scopePointer)
+            }
+            else {
+                
+                return bson_append_code(documentPointer, key, keyLength, code.code)
+            }
             
         case let .Document(childDocument):
             
