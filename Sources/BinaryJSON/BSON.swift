@@ -32,7 +32,17 @@ public struct BSON {
         
         case Date(DateValue)
         
-        case Data(DataValue)
+        case Data(DataValue)        
+        
+        case Code(BSON.Code)
+        
+        case ObjectID(BSON.ObjectID)
+        
+        case RegularExpression(BSON.RegularExpression)
+        
+        case MinKey
+        
+        case MaxKey
         
         // MARK: - Extract Values
         
@@ -114,14 +124,16 @@ public struct BSON {
         
     public struct Timestamp {
         
+        /// Seconds since the Unix epoch
         public var time: UInt32
         
-        public var increment: UInt32
+        /// Prdinal for operations within a given second
+        public var oridinal: UInt32
         
-        public init(time: UInt32, increment: UInt32) {
+        public init(time: UInt32, oridinal: UInt32) {
             
             self.time = time
-            self.increment = increment
+            self.oridinal = oridinal
         }
     }
     

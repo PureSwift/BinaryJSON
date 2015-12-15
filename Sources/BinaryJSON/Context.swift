@@ -18,12 +18,16 @@ public extension BSON {
     
     public final class Context {
         
-        /// The default BSON context.
-        public static let defualt = Context(internalPointer: bson_context_get_default(), options: [.ThreadSafe, .DisablePIDCache])
+        /// The default, thread-safe BSON context.
+        public static let defualt = Context(options: [.ThreadSafe, .DisablePIDCache])
         
         // MARK: - Properties
         
         public let options: [Option]
+        
+        // MARK: - Internal Properties
+        
+        internal let internalPointer: COpaquePointer
         
         // MARK: - Initialization
         
@@ -36,16 +40,6 @@ public extension BSON {
             
             self.options = options
             self.internalPointer = bson_context_new(bson_context_flags_t(rawValue: flags))
-        }
-        
-        // MARK: - Internal
-        
-        internal let internalPointer: COpaquePointer
-        
-        internal init(internalPointer: COpaquePointer, options: [Option]) {
-            
-            self.options = options
-            self.internalPointer = internalPointer
         }
     }
 }
@@ -65,12 +59,19 @@ public extension BSON.Context {
         /// Call ```gethostname()``` instead of caching the result of ```gethostname()``` when initializing the context.
         case DisableHostCache
         
+        //#if os(Linux)
+        //case UseTaskID
+        //#endif
+        
         public init?(rawValue: UInt32) {
             
             switch rawValue {
             case BSON_CONTEXT_THREAD_SAFE.rawValue: self = .ThreadSafe
             case BSON_CONTEXT_DISABLE_PID_CACHE.rawValue: self = .DisablePIDCache
             case BSON_CONTEXT_DISABLE_HOST_CACHE.rawValue: self = .DisableHostCache
+            //#if os(Linux)
+            //case BSON_CONTEXT_USE_TASK_ID.rawValue: self = .UseTaskID
+            //#endif
             default: return nil
             }
         }
@@ -81,6 +82,10 @@ public extension BSON.Context {
             case .ThreadSafe: return BSON_CONTEXT_THREAD_SAFE.rawValue
             case .DisablePIDCache: return BSON_CONTEXT_DISABLE_PID_CACHE.rawValue
             case .DisableHostCache: return BSON_CONTEXT_DISABLE_HOST_CACHE.rawValue
+            
+            //#if os(Linux)
+            //case .UseTaskID: return BSON_CONTEXT_USE_TASK_ID.rawValue
+            //#endif
             }
         }
     }
