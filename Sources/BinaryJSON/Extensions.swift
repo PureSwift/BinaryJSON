@@ -1,6 +1,6 @@
 //
 //  Extensions.swift
-//  BinaryBSON
+//  BinaryJSON
 //
 //  Created by Alsey Coleman Miller on 12/15/15.
 //  Copyright © 2015 PureSwift. All rights reserved.

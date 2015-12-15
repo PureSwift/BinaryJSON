@@ -185,6 +185,16 @@ public extension BSON.Value {
         case let .Data(data): return data
             
         case let .String(string): return string
+            
+        case .MaxKey: return BSON.MaxKey()
+            
+        case .MinKey: return BSON.MinKey()
+            
+        case let .Code(code): return code
+            
+        case let .ObjectID(objectID): return objectID
+            
+        case let .RegularExpression(regularExpression): return regularExpression
         }
     }
     
@@ -193,6 +203,18 @@ public extension BSON.Value {
         guard (rawValue as? SwiftFoundation.Null) == nil else {
             
             self = .Null
+            return
+        }
+        
+        guard (rawValue as? BSON.MaxKey) == nil else {
+            
+            self = .MaxKey
+            return
+        }
+        
+        guard (rawValue as? BSON.MinKey) == nil else {
+            
+            self = .MinKey
             return
         }
         
@@ -238,6 +260,24 @@ public extension BSON.Value {
             }
             
             self = .Document(document)
+            return
+        }
+        
+        if let code = rawValue as? BSON.Code {
+            
+            self = .Code(code)
+            return
+        }
+        
+        if let objectID = rawValue as? BSON.ObjectID {
+            
+            self = .ObjectID(objectID)
+            return
+        }
+        
+        if let regularExpression = rawValue as? BSON.RegularExpression {
+            
+            self = .RegularExpression(regularExpression)
             return
         }
         
