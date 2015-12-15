@@ -16,7 +16,7 @@ import SwiftFoundation
 
 public extension BSON {
     
-    public struct ObjectID: ByteValue, RawRepresentable, Equatable, Comparable, Hashable {
+    public struct ObjectID: ByteValue, RawRepresentable, Equatable, Hashable {
         
         public typealias ByteValueType = (UInt8, UInt8, UInt8, UInt8, UInt8, UInt8, UInt8, UInt8, UInt8, UInt8, UInt8, UInt8)
         
@@ -87,15 +87,21 @@ public extension BSON.ObjectID {
 
 public func ==(lhs: BSON.ObjectID, rhs: BSON.ObjectID) -> Bool {
     
+    // quicker with identity check if backed by same instance
+    guard lhs.internalClass !== rhs.internalClass else { return true }
+    
+    // compare the values of the two pointers
     return bson_oid_equal_unsafe(lhs.internalClass.internalPointer, rhs.internalClass.internalPointer)
 }
 
+/*
 // MARK: - Comparable
 
 public func <(lhs: BSON.ObjectID, rhs: BSON.ObjectID) -> Bool {
     
     return bson_oid_compare_unsafe(lhs.internalClass.internalPointer, rhs.internalClass.internalPointer) < 0
 }
+*/
 
 // MARK: - Hashable
 
