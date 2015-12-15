@@ -16,43 +16,68 @@ import SwiftFoundation
 
 public extension BSON {
     
-    public struct ObjectID: ByteValue {
+    public struct ObjectID: ByteValue, RawRepresentable, Equatable, Comparable, Hashable {
         
         public typealias ByteValueType = (UInt8, UInt8, UInt8, UInt8, UInt8, UInt8, UInt8, UInt8, UInt8, UInt8, UInt8, UInt8)
         
-        public let byteValue: ByteValueType
+        public var byteValue: ByteValueType {
+            
+            get { return internalClass.internalPointer.memory.bytes }
+            
+            mutating set {
+            
+                ensureUnique()
+                internalClass.internalPointer.memory.bytes = newValue
+            }
+        }
+        
+        // MARK: - Private
+        
+        private var internalClass: InternalClass
+        
+        private mutating func ensureUnique() {
+            if !isUniquelyReferencedNonObjC(&internalClass) {
+                internalClass = internalClass.copy()
+            }
+        }
+    }
+}
+
+public extension BSON.ObjectID {
+    
+    // Date object ID was generated
+    var date: Date {
+        
+        let time = bson_oid_get_time_t_unsafe(self.internalClass.internalPointer)
+        
+        return Date(timeIntervalSince1970: TimeInterval(time))
     }
 }
 
 // MARK: - RawRepresentable
 
-extension BSON.ObjectID: RawRepresentable {
+public extension BSON.ObjectID {
     
     public init?(rawValue: String) {
         
         // must be 24 characters
-        guard rawValue.utf8.count == 24
+        guard rawValue.utf8.count == 24 &&
+            bson_oid_is_valid(rawValue, rawValue.utf8.count)
             else { return nil }
         
-        let pointer = UnsafeMutablePointer<bson_oid_t>()
-        defer { pointer.dealloc(1) }
+        let internalPointer = UnsafeMutablePointer<bson_oid_t>()
         
-        bson_oid_init_from_string_unsafe(pointer, rawValue)
+        bson_oid_init_from_string_unsafe(internalPointer, rawValue)
         
-        self.byteValue = pointer.memory.bytes
+        self.internalClass = InternalClass(internalPointer: internalPointer)
     }
     
     public var rawValue: String {
         
-        let oidPointer = UnsafeMutablePointer<bson_oid_t>.alloc(1)
-        defer { oidPointer.dealloc(1) }
-        
-        oidPointer.memory.bytes = self.byteValue
-        
         let stringPointer = UnsafeMutablePointer<CChar>.alloc(25)
         defer { stringPointer.dealloc(25) }
         
-        bson_oid_to_string(oidPointer, stringPointer)
+        bson_oid_to_string(internalClass.internalPointer, stringPointer)
         
         return String.fromCString(stringPointer)!
     }
@@ -62,32 +87,61 @@ extension BSON.ObjectID: RawRepresentable {
 
 public func ==(lhs: BSON.ObjectID, rhs: BSON.ObjectID) -> Bool {
     
-    var oid1 = bson_oid_t(bytes: lhs.byteValue)
+    return bson_oid_equal_unsafe(lhs.internalClass.internalPointer, rhs.internalClass.internalPointer)
+}
+
+// MARK: - Comparable
+
+public func <(lhs: BSON.ObjectID, rhs: BSON.ObjectID) -> Bool {
     
-    var oid2 = bson_oid_t(bytes: rhs.byteValue)
-    
-    return bson_oid_equal_unsafe(&oid1, &oid2)
+    return bson_oid_compare_unsafe(lhs.internalClass.internalPointer, rhs.internalClass.internalPointer) < 0
 }
 
 // MARK: - Hashable
 
-extension BSON.ObjectID: Hashable {
+public extension BSON.ObjectID {
     
     public var hashValue: Int {
         
-        let oidPointer = UnsafeMutablePointer<bson_oid_t>.alloc(1)
-        defer { oidPointer.dealloc(1) }
-        
-        oidPointer.memory.bytes = self.byteValue
-        
-        let hash = bson_oid_hash_unsafe(oidPointer)
+        let hash = bson_oid_hash_unsafe(internalClass.internalPointer)
         
         return Int(hash)
     }
 }
 
+// MARK: - Private
 
-
+private extension BSON.ObjectID {
+    
+    /// Underlying storage for BSON Object ID.
+    private final class InternalClass {
+        
+        private let internalPointer: UnsafeMutablePointer<bson_oid_t>
+        
+        /// Initialize the internal class with the BSON OID
+        ///
+        /// - Precondition: Pointer must be allocated and initialized
+        private init(internalPointer: UnsafeMutablePointer<bson_oid_t>) {
+            
+            self.internalPointer = internalPointer
+        }
+        
+        deinit {
+            
+            self.internalPointer.destroy()
+            self.internalPointer.dealloc(1)
+        }
+        
+        private func copy() -> InternalClass {
+            
+            let copy = UnsafeMutablePointer<bson_oid_t>()
+            
+            bson_oid_copy_unsafe(internalPointer, copy)
+            
+            return InternalClass(internalPointer: copy)
+        }
+    }
+}
 
 
 
