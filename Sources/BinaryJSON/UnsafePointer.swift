@@ -29,6 +29,40 @@ public extension BSON {
         
         return documentPointer
     }
+    
+    /// Creates a ```BSON.Document``` from an unsafe pointer. 
+    ///
+    /// - Precondition: The ```bson_t``` must be valid.
+    static func documentFromUnsafePointer(documentPointer: UnsafeMutablePointer<bson_t>) -> BSON.Document? {
+        
+        var iterator = bson_iter_t()
+        
+        guard bson_iter_init(&iterator, documentPointer) == true
+            else { return nil }
+        
+        var document = BSON.Document()
+        
+        while bson_iter_next(&iterator) {
+            
+            // key char buffer should not be changed or freed
+            let keyBuffer = bson_iter_key_unsafe(&iterator)
+            
+            let key = String.fromCString(keyBuffer)
+            
+            let type = bson_iter_type_unsafe(&iterator)
+            
+            let value: BSON.Value
+            
+            switch type {
+                
+            case BSON_TYPE_DOUBLE:
+                
+                let doubleValue = bson_iter_double_unsafe(&iterator)
+                
+                value = .Number(.Double(doubleValue))
+            }
+        }
+    }
 }
 
 private extension BSON {
