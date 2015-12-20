@@ -32,7 +32,9 @@ public struct BSON {
         
         case Date(DateValue)
         
-        case Data(DataValue)        
+        case Timestamp(BSON.Timestamp)
+        
+        case Binary(BSON.Binary)
         
         case Code(BSON.Code)
         
@@ -40,9 +42,7 @@ public struct BSON {
         
         case RegularExpression(BSON.RegularExpression)
         
-        case MinKey
-        
-        case MaxKey
+        case Key(BSON.Key)
         
         // MARK: - Extract Values
         
@@ -118,14 +118,10 @@ public struct BSON {
         }
     }
     
-    public struct MaxKey {
+    public enum Key {
         
-        public init() { }
-    }
-    
-    public struct MinKey {
-        
-        public init() { }
+        case Minimum
+        case Maximum
     }
         
     public struct Timestamp {
@@ -188,13 +184,13 @@ public extension BSON.Value {
             
         case let .Date(date): return date
             
-        case let .Data(data): return data
+        case let .Timestamp(timestamp): return timestamp
+            
+        case let .Binary(binary): return binary
             
         case let .String(string): return string
             
-        case .MaxKey: return BSON.MaxKey()
-            
-        case .MinKey: return BSON.MinKey()
+        case let .Key(key): return key
             
         case let .Code(code): return code
             
@@ -212,15 +208,9 @@ public extension BSON.Value {
             return
         }
         
-        guard (rawValue as? BSON.MaxKey) == nil else {
+        if let key = rawValue as? BSON.Key {
             
-            self = .MaxKey
-            return
-        }
-        
-        guard (rawValue as? BSON.MinKey) == nil else {
-            
-            self = .MinKey
+            self = .Key(key)
             return
         }
         
@@ -236,9 +226,15 @@ public extension BSON.Value {
             return
         }
         
-        if let data = rawValue as? SwiftFoundation.Data {
+        if let timestamp = rawValue as? BSON.Timestamp {
             
-            self = .Data(data)
+            self = .Timestamp(timestamp)
+            return
+        }
+        
+        if let binary = rawValue as? BSON.Binary {
+            
+            self = .Binary(binary)
             return
         }
         

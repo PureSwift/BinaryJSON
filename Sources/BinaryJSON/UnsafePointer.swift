@@ -65,10 +65,49 @@ private extension BSON {
             
             return bson_append_date_time(documentPointer, key, keyLength, milisecondsSince1970)
             
-        case let .Data(data):
+        case let .Timestamp(timestamp):
             
-            // TODO: Implement Binary Data
-            fatalError("Data not implemented")
+            return bson_append_timestamp(documentPointer, key, keyLength, timestamp.time, timestamp.oridinal)
+            
+        case let .Binary(binary):
+            
+            let subtype: bson_subtype_t
+            
+            switch binary.subtype {
+                
+            case .Generic: subtype = BSON_SUBTYPE_BINARY
+                
+            case .Function: subtype = BSON_SUBTYPE_FUNCTION
+                
+            case .Old: subtype = BSON_SUBTYPE_BINARY_DEPRECATED
+                
+            case .UUIDOld: subtype = BSON_SUBTYPE_UUID_DEPRECATED
+                
+            case .UUID: subtype = BSON_SUBTYPE_UUID
+                
+            case .MD5: subtype = BSON_SUBTYPE_MD5
+                
+            case .User: subtype = BSON_SUBTYPE_USER
+            }
+            
+            return bson_append_binary(documentPointer, key, keyLength, subtype, binary.data.byteValue, UInt32(binary.data.byteValue.count))
+            
+        case let .RegularExpression(regularExpression):
+            
+            return bson_append_regex(documentPointer, key, keyLength, regularExpression.pattern, regularExpression.options)
+            
+        case let .Key(keyType):
+            
+            switch keyType {
+                
+            case .Maximum:
+                
+                return bson_append_maxkey(documentPointer, key, keyLength)
+                
+            case .Minimum:
+                
+                return bson_append_minkey(documentPointer, key, keyLength)
+            }
             
         case let .Code(code):
             
@@ -83,6 +122,12 @@ private extension BSON {
                 
                 return bson_append_code(documentPointer, key, keyLength, code.code)
             }
+            
+        case let .ObjectID(objectID):
+            
+            var oid = bson_oid_t(bytes: objectID.byteValue)
+            
+            return bson_append_oid(documentPointer, key, keyLength, &oid)
             
         case let .Document(childDocument):
             
