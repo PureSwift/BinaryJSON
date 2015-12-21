@@ -12,6 +12,8 @@
     import CBSON
 #endif
 
+import SwiftFoundation
+
 public extension BSON {
     
     /// Creates an unsafe pointer of a BSON document for use with the C API.
@@ -42,26 +44,10 @@ public extension BSON {
         
         var document = BSON.Document()
         
-        while bson_iter_next(&iterator) {
-            
-            // key char buffer should not be changed or freed
-            let keyBuffer = bson_iter_key_unsafe(&iterator)
-            
-            let key = String.fromCString(keyBuffer)
-            
-            let type = bson_iter_type_unsafe(&iterator)
-            
-            let value: BSON.Value
-            
-            switch type {
-                
-            case BSON_TYPE_DOUBLE:
-                
-                let doubleValue = bson_iter_double_unsafe(&iterator)
-                
-                value = .Number(.Double(doubleValue))
-            }
-        }
+        guard iterate(&document, iterator: &iterator) == true
+            else { return nil }
+        
+        return document
     }
 }
 
@@ -195,6 +181,69 @@ private extension BSON {
             
             return bson_append_array_end(documentPointer, childPointer)
         }
+    }
+    
+    static func iterate(inout document: BSON.Document, inout iterator: bson_iter_t) -> Bool {
+        
+        while bson_iter_next(&iterator) {
+            
+            // key char buffer should not be changed or freed
+            let keyBuffer = bson_iter_key_unsafe(&iterator)
+            
+            guard let key = String.fromCString(keyBuffer)
+                else { fatalError("Invalid key C string") }
+            
+            let type = bson_iter_type_unsafe(&iterator)
+            
+            let value: BSON.Value
+            
+            switch type {
+                
+            case BSON_TYPE_DOUBLE:
+                
+                let double = bson_iter_double_unsafe(&iterator)
+                
+                value = .Number(.Double(double))
+                
+            case BSON_TYPE_UTF8:
+                
+                let buffer = bson_iter_utf8_unsafe(&iterator, nil)
+                
+                guard let string = String.fromCString(buffer)
+                    else { fatalError("Invalid C string") }
+                
+                value = .String(string)
+                
+            case BSON_TYPE_DOCUMENT:
+                
+                var childIterator = bson_iter_t()
+                
+                var childDocument = BSON.Document()
+                
+                guard bson_iter_recurse(&iterator, &childIterator) &&
+                    iterate(&childDocument, iterator: &childIterator)
+                    else { return false }
+                
+                value = .Document(childDocument)
+                
+            case BSON_TYPE_ARRAY:
+                
+                var arrayLength: UInt32 = 0
+                
+                var bufferPointer = UnsafeMutablePointer<UnsafePointer<UInt8>>()
+                
+                bson_iter_array(&iterator, &arrayLength, bufferPointer)
+                
+                let data = Data.fromBytePointer(bufferPointer.memory, length: arrayLength)
+                
+                let reader = Reader(data: <#T##Data#>)
+            }
+            
+            // add key / value pair
+            document[key] = value
+        }
+        
+        return true
     }
 }
 
