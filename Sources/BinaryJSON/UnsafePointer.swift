@@ -195,7 +195,7 @@ private extension BSON {
             
             let type = bson_iter_type_unsafe(&iterator)
             
-            let value: BSON.Value
+            var value: BSON.Value!
             
             switch type {
                 
@@ -249,10 +249,47 @@ private extension BSON {
                 
                 for (index, document) in EnumerateGenerator(reader).enumerate() {
                     
-                    bson_value_t
+                    
                 }
                 
-            case BSON_TYPE_
+            case BSON_TYPE_BINARY:
+                
+                var subtype = bson_subtype_t(rawValue: 0)
+                
+                var length: UInt32 = 0
+                
+                let bufferPointer = UnsafeMutablePointer<UnsafePointer<UInt8>>()
+                
+                defer { bufferPointer.dealloc(1) }
+                
+                bson_iter_binary(&iterator, &subtype, &length, bufferPointer)
+                
+                var bytes: [UInt8] = [UInt8](count: Int(length), repeatedValue: 0)
+                
+                memcpy(&bytes, bufferPointer.memory, Int(length))
+                
+                let data = Data(byteValue: bytes)
+                
+                let binarySubtype: Binary.Subtype
+                
+                switch subtype {
+                    
+                case BSON_SUBTYPE_BINARY: binarySubtype = .Generic
+                case BSON_SUBTYPE_FUNCTION: binarySubtype = .Function
+                case BSON_SUBTYPE_BINARY_DEPRECATED: binarySubtype = .Old
+                case BSON_SUBTYPE_UUID_DEPRECATED: binarySubtype = .UUIDOld
+                case BSON_SUBTYPE_UUID: binarySubtype = .UUID
+                case BSON_SUBTYPE_MD5: binarySubtype = .MD5
+                case BSON_SUBTYPE_USER: binarySubtype = .User
+                    
+                default: binarySubtype = .User
+                }
+                
+                let binary = Binary(data: data, subtype: binarySubtype)
+                
+                value = .Binary(binary)
+                
+            default: fatalError("Case \(type) not implemented")
             }
             
             // add key / value pair
