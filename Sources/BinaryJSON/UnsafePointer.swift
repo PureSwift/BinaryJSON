@@ -195,7 +195,7 @@ private extension BSON {
             
             let type = bson_iter_type_unsafe(&iterator)
             
-            var value: BSON.Value!
+            var value: BSON.Value?
             
             switch type {
                 
@@ -289,11 +289,53 @@ private extension BSON {
                 
                 value = .Binary(binary)
                 
+            // deprecated, no bindings
+            case BSON_TYPE_DBPOINTER, BSON_TYPE_UNDEFINED, BSON_TYPE_SYMBOL: value = nil
+                
+            case BSON_TYPE_OID:
+                
+                /// should not be freed
+                let oidPointer = bson_iter_oid_unsafe(&iterator)
+                
+                let objectID = ObjectID(byteValue: oidPointer.memory.bytes)
+                
+                value = .ObjectID(objectID)
+                
+            case BSON_TYPE_BOOL:
+                
+                let boolean = bson_iter_bool_unsafe(&iterator)
+                
+                value = .Number(.Boolean(boolean))
+                
+            case BSON_TYPE_DATE_TIME:
+                
+                let datetime = bson_iter_date_time(&iterator)
+                
+                let timeintervalSince1970 = TimeInterval(datetime) / 1000
+                
+                let date = Date(timeIntervalSince1970: timeintervalSince1970)
+                
+                value = .Date(date)
+                
+            case BSON_TYPE_NULL:
+                
+                value = .Null
+                
+            case BSON_TYPE_REGEX:
+                
+                
+                
             default: fatalError("Case \(type) not implemented")
             }
             
+            
             // add key / value pair
-            document[key] = value
+            if let value = value {
+                
+                document[key] = value
+            }
+            
+            
         }
         
         return true
