@@ -228,15 +228,31 @@ private extension BSON {
                 
             case BSON_TYPE_ARRAY:
                 
+                // TODO: Array
+                
                 var arrayLength: UInt32 = 0
                 
                 var bufferPointer = UnsafeMutablePointer<UnsafePointer<UInt8>>()
                 
+                defer {
+                    bufferPointer.destroy()
+                    bufferPointer.dealloc(1)
+                }
+                
                 bson_iter_array(&iterator, &arrayLength, bufferPointer)
                 
-                let data = Data.fromBytePointer(bufferPointer.memory, length: arrayLength)
+                var bytes: [UInt8] = [UInt8](count: Int(arrayLength), repeatedValue: 0)
                 
-                let reader = Reader(data: <#T##Data#>)
+                memcpy(&bytes, bufferPointer.memory, Int(arrayLength))
+                
+                let reader = Reader(data: Data(byteValue: bytes))
+                
+                for (index, document) in EnumerateGenerator(reader).enumerate() {
+                    
+                    bson_value_t
+                }
+                
+            case BSON_TYPE_
             }
             
             // add key / value pair

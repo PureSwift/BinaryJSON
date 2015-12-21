@@ -33,7 +33,7 @@ public extension BSON {
         
         // MARK: - Methods
         
-        public func next() -> BSON.Value? {
+        public func next() -> BSON.Document? {
             
             var eof = false
             
@@ -41,9 +41,11 @@ public extension BSON {
             
             guard valuePointer != nil else { return nil }
             
-            // convert to type
+            // convert to document
+            guard let document = BSON.documentFromUnsafePointer(UnsafeMutablePointer<bson_t>(valuePointer))
+                else { return nil }
             
-            return valuePointer
+            return document
         }
     }
 }
