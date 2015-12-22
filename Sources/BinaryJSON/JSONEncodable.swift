@@ -74,7 +74,7 @@ extension BSON.Value: JSONEncodable {
             
         case let .RegularExpression(regularExpression): return regularExpression.toJSON()
             
-        case let .Date(date): return .Object(["$date": .Number(.Double(date.timeIntervalSince1970))])
+        case let .Date(date): return .Object(["$date": .Number(.Integer(Int(date.timeIntervalSince1970 * 1000)))])
         }
     }
 }
@@ -114,12 +114,12 @@ extension BSON.Timestamp: JSONEncodable {
     
     private enum JSONKey: String {
         
-        case t, i
+        case t, i, timestamp = "$timestamp"
     }
     
     public func toJSON() -> JSON.Value {
         
-        return .Object([JSONKey.t.rawValue: .Number(.Integer(Int(time))), JSONKey.i.rawValue: .Number(.Integer(Int(oridinal)))])
+        return .Object([JSONKey.timestamp.rawValue: .Object([JSONKey.t.rawValue: .Number(.Integer(Int(time))), JSONKey.i.rawValue: .Number(.Integer(Int(oridinal)))])])
     }
 }
 
@@ -137,7 +137,7 @@ extension BSON.Binary: JSONEncodable {
         
         guard let base64String = String(UTF8Data: base64EncodedData)
             else { fatalError("Could not create string from Base64 data") }
-                
+        
         let subtypeHexString = String(format:"%02hhX", subtype.rawValue)
         
         return .Object([JSONKey.binary.rawValue: .String(base64String), JSONKey.type.rawValue: .String(subtypeHexString)])
