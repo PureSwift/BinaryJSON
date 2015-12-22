@@ -81,9 +81,9 @@ private extension BSON {
             
         case let .Date(date):
             
-            let milisecondsSince1970 = Int64(date.timeIntervalSince1970 * 1000)
+            var time = timeval(timeInterval: date.timeIntervalSince1970)
             
-            return bson_append_date_time(documentPointer, key, keyLength, milisecondsSince1970)
+            return bson_append_timeval(documentPointer, key, keyLength, &time)
             
         case let .Timestamp(timestamp):
             
@@ -310,11 +310,11 @@ private extension BSON {
                 
             case BSON_TYPE_DATE_TIME:
                 
-                let datetime = bson_iter_date_time(&iterator)
+                var time = timeval()
                 
-                let timeintervalSince1970 = TimeInterval(datetime) / 1000
+                bson_iter_timeval(&iterator, &time)
                 
-                let date = Date(timeIntervalSince1970: timeintervalSince1970)
+                let date = Date(timeIntervalSince1970: time.timeIntervalValue)
                 
                 value = .Date(date)
                 

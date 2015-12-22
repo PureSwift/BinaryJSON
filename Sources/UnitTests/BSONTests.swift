@@ -20,6 +20,13 @@ class BSONTests: XCTestCase {
     
     func testUnsafePoiner() {
         
+        let time = TimeInterval(Int(TimeIntervalSince1970()))
+        
+        // Date is more precise than supported by BSON, so equality fails
+        let date = Date(timeIntervalSince1970: time)
+        
+        print("Date: \(date)")
+        
         var document = BSON.Document()
         
         // build BSON document
@@ -41,7 +48,7 @@ class BSONTests: XCTestCase {
             
             document["objectID"] = .ObjectID(BSON.ObjectID())
             
-            document["datetime"] = .Date(Date())
+            document["datetime"] = .Date(date)
             
             document["null"] = .Null
             
