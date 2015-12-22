@@ -60,6 +60,25 @@ extension SwiftFoundation.Date: BSONDecodable {
     }
 }
 
+// MARK: Data
+
+extension SwiftFoundation.Data: BSONEncodable {
+    
+    public func toBSON() -> BSON.Value { return .Binary(BSON.Binary(data: self)) }
+}
+
+extension SwiftFoundation.Data: BSONDecodable {
+    
+    public init?(BSONValue: BSON.Value) {
+        
+        // generic binary is convertible to data
+        guard let value = BSONValue.rawValue as? BSON.Binary where value.subtype == .Generic
+            else { return nil }
+        
+        self = value.data
+    }
+}
+
 // MARK: - Swift Standard Library Types
 
 // MARK: Encodable
