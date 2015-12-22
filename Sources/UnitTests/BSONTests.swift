@@ -42,7 +42,7 @@ class BSONTests: XCTestCase {
             
             document["numbersDocument"] = .Document(numbersDocument)
             
-            //document["string"] = .String("Text")
+            document["string"] = .String("Text")
             
             //document["array"]
             
