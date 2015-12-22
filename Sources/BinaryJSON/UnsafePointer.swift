@@ -183,6 +183,7 @@ private extension BSON {
         }
     }
     
+    /// iterate and append values to document
     static func iterate(inout document: BSON.Document, inout iterator: bson_iter_t) -> Bool {
         
         while bson_iter_next(&iterator) {
@@ -323,19 +324,93 @@ private extension BSON {
                 
             case BSON_TYPE_REGEX:
                 
+                let optionsBuffer = UnsafeMutablePointer<UnsafePointer<CChar>>()
                 
+                let patternBuffer = bson_iter_regex(&iterator, optionsBuffer)
+                
+                let options = String.fromCString(optionsBuffer.memory)!
+                
+                let pattern = String.fromCString(patternBuffer)!
+                
+                let regex = RegularExpression(pattern, options: options)
+                
+                value = .RegularExpression(regex)
+                
+            case BSON_TYPE_CODE:
+                
+                var length: UInt32 = 0
+                
+                let buffer = bson_iter_code_unsafe(&iterator, &length)
+                
+                let codeString = String.fromCString(buffer)!
+                
+                let code = Code(code: codeString)
+                
+                value = .Code(code)
+                
+            case BSON_TYPE_CODEWSCOPE:
+                
+                var codeLength: UInt32 = 0
+                
+                var scopeLength: UInt32 = 0
+                
+                let scopeBuffer = UnsafeMutablePointer<UnsafePointer<UInt8>>()
+                
+                let buffer = bson_iter_codewscope(&iterator, &codeLength, &scopeLength, scopeBuffer)
+                
+                let codeString = String.fromCString(buffer)!
+                
+                var scopeBSON = bson_t()
+                
+                guard bson_init_static(&scopeBSON, scopeBuffer.memory, Int(scopeLength))
+                    else { return false }
+                
+                let scopeDocument = documentFromUnsafePointer(&scopeBSON)
+                
+                let code = Code(code: codeString, scope: scopeDocument)
+                
+                value = .Code(code)
+                
+            case BSON_TYPE_INT32:
+                
+                let integer = bson_iter_int32_unsafe(&iterator)
+                
+                value = .Number(.Integer32(integer))
+                
+            case BSON_TYPE_INT64:
+                
+                let integer = bson_iter_int64_unsafe(&iterator)
+                
+                value = .Number(.Integer64(integer))
+                
+            case BSON_TYPE_TIMESTAMP:
+                
+                var time: UInt32 = 0
+                
+                var increment: UInt32 = 0
+                
+                bson_iter_timestamp(&iterator, &time, &increment)
+                
+                let timestamp = Timestamp(time: time, oridinal: increment)
+                
+                value = .Timestamp(timestamp)
+                
+            case BSON_TYPE_MAXKEY:
+                
+                value = .Key(.Maximum)
+                
+            case BSON_TYPE_MINKEY:
+                
+                value = .Key(.Minimum)
                 
             default: fatalError("Case \(type) not implemented")
             }
-            
             
             // add key / value pair
             if let value = value {
                 
                 document[key] = value
             }
-            
-            
         }
         
         return true
