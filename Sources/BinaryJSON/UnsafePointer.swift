@@ -208,7 +208,9 @@ private extension BSON {
                 
             case BSON_TYPE_UTF8:
                 
-                let buffer = bson_iter_utf8_unsafe(&iterator, nil)
+                var length = 0
+                
+                let buffer = bson_iter_utf8_unsafe(&iterator, &length)
                 
                 guard let string = String.fromCString(buffer)
                     else { fatalError("Invalid C string") }
