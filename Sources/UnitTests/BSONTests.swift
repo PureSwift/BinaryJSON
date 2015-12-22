@@ -20,52 +20,7 @@ class BSONTests: XCTestCase {
     
     func testUnsafePointer() {
         
-        let time = TimeInterval(Int(TimeIntervalSince1970()))
-        
-        // Date is more precise than supported by BSON, so equality fails
-        let date = Date(timeIntervalSince1970: time)
-        
-        print("Date: \(date)")
-        
-        var document = BSON.Document()
-        
-        // build BSON document
-        do {
-            
-            var numbersDocument = BSON.Document()
-            
-            numbersDocument["double"] = .Number(.Double(1000.1111))
-            
-            numbersDocument["int32"] = .Number(.Integer32(32))
-            
-            numbersDocument["int64"] = .Number(.Integer64(64))
-            
-            document["numbersDocument"] = .Document(numbersDocument)
-            
-            document["string"] = .String("Text")
-            
-            document["array"] = .Array([.Document(["key": .Array([.String("subarray string")])])])
-            
-            document["objectID"] = .ObjectID(BSON.ObjectID())
-            
-            document["data"] = .Binary(BSON.Binary(data: "test".toUTF8Data()))
-            
-            document["datetime"] = .Date(date)
-            
-            document["null"] = .Null
-            
-            document["regex"] = .RegularExpression(BSON.RegularExpression("pattern", options: "\\w"))
-            
-            document["code"] = .Code(BSON.Code("js code"))
-            
-            document["code with scope"] = .Code(BSON.Code("JS code", scope: ["myVariable": .String("value")]))
-            
-            document["timestamp"] = .Timestamp(BSON.Timestamp(time: 10, oridinal: 1))
-            
-            document["minkey"] = .Key(.Minimum)
-            
-            document["maxkey"] = .Key(.Maximum)
-        }
+        let document = sampleDocument()
         
         // create from pointer
         do {
@@ -99,51 +54,10 @@ class BSONTests: XCTestCase {
             XCTAssert(newDocument == document, "\(newDocument) == \(document)")
         }
     }
-    /*
+    
     func testToJSONString() {
         
-        var document = BSON.Document()
-        
-        // build BSON document
-        do {
-            
-            let time = TimeInterval(Int(TimeIntervalSince1970()))
-            
-            // Date is more precise than supported by BSON, so equality fails
-            let date = Date(timeIntervalSince1970: time)
-            
-            var numbersDocument = BSON.Document()
-            
-            numbersDocument["double"] = .Number(.Double(1000.1111))
-            
-            numbersDocument["int32"] = .Number(.Integer32(32))
-            
-            numbersDocument["int64"] = .Number(.Integer64(64))
-            
-            document["numbersDocument"] = .Document(numbersDocument)
-            
-            document["string"] = .String("Text")
-            
-            document["array"] = .Array([.Document(["key": .Array([.String("subarray string")])])])
-            
-            document["objectID"] = .ObjectID(BSON.ObjectID())
-            
-            document["datetime"] = .Date(date)
-            
-            document["null"] = .Null
-            
-            document["regex"] = .RegularExpression(BSON.RegularExpression("pattern", options: "\\w"))
-            
-            document["code"] = .Code(BSON.Code("js code"))
-            
-            document["code with scope"] = .Code(BSON.Code("JS code", scope: ["myVariable": .String("value")]))
-            
-            document["timestamp"] = .Timestamp(BSON.Timestamp(time: 10, oridinal: 1))
-            
-            document["minkey"] = .Key(.Minimum)
-            
-            document["maxkey"] = .Key(.Maximum)
-        }
+        let document = sampleDocument()
         
         print("Document: \n\(document)\n")
         
@@ -151,6 +65,60 @@ class BSONTests: XCTestCase {
         
         print("JSON: \n\(jsonString)\n")
     }
-    */
-    
 }
+
+// MARK: - Internal
+
+func sampleDocument() -> BSON.Document {
+    
+    let time = TimeInterval(Int(TimeIntervalSince1970()))
+    
+    // Date is more precise than supported by BSON, so equality fails
+    let date = Date(timeIntervalSince1970: time)
+    
+    print("Date: \(date)")
+    
+    var document = BSON.Document()
+    
+    // build BSON document
+    do {
+        
+        var numbersDocument = BSON.Document()
+        
+        numbersDocument["double"] = .Number(.Double(1000.1111))
+        
+        numbersDocument["int32"] = .Number(.Integer32(32))
+        
+        numbersDocument["int64"] = .Number(.Integer64(64))
+        
+        document["numbersDocument"] = .Document(numbersDocument)
+        
+        document["string"] = .String("Text")
+        
+        document["array"] = .Array([.Document(["key": .Array([.String("subarray string")])])])
+        
+        document["objectID"] = .ObjectID(BSON.ObjectID())
+        
+        document["data"] = .Binary(BSON.Binary(data: "test".toUTF8Data()))
+        
+        document["datetime"] = .Date(date)
+        
+        document["null"] = .Null
+        
+        document["regex"] = .RegularExpression(BSON.RegularExpression("pattern", options: "\\w"))
+        
+        document["code"] = .Code(BSON.Code("js code"))
+        
+        document["code with scope"] = .Code(BSON.Code("JS code", scope: ["myVariable": .String("value")]))
+        
+        document["timestamp"] = .Timestamp(BSON.Timestamp(time: 10, oridinal: 1))
+        
+        document["minkey"] = .Key(.Minimum)
+        
+        document["maxkey"] = .Key(.Maximum)
+    }
+    
+    return document
+}
+
+

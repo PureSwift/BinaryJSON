@@ -66,7 +66,11 @@ extension BSON.Value: JSONEncodable {
             
         case let .Timestamp(timestamp): return timestamp.toJSON()
             
-        case let .Binary(binary): return Binary.toJSON()
+        case let .Binary(binary): return binary.toJSON()
+            
+        case let .Code(code): return code.toJSON()
+            
+        case let .ObjectID(objectID): return objectID.toJSON()
         }
     }
 }
@@ -115,8 +119,39 @@ extension BSON.Timestamp: JSONEncodable {
     }
 }
 
-extension BSON.Binary: BSONEncodable {
+extension BSON.Binary: JSONEncodable {
+    
+    private static var JSONKey: String { return "$binary" }
+    
+    public func toJSON() -> JSON.Value {
+        
+        let base64EncodedData = Base64.encode(self.data)
+        
+        guard let base64String = String(UTF8Data: base64EncodedData)
+            else { fatalError("Could not create string from Base64 data") }
+        
+        return .Object([BSON.Binary.JSONKey: .String(base64String)])
+    }
+}
+
+extension BSON.Code: JSONEncodable {
+    
+    public func toJSON() -> JSON.Value {
+        
+        /*
+        if let scope = self.scope {
+            
+            // appearently not exported to JSON
+        }*/
+        
+        // no scope
+        return .String(code)
+    }
+}
+
+extension BSON.ObjectID: JSONEncodable {
     
     
 }
+
 
