@@ -360,7 +360,9 @@ private extension BSON {
                 
                 var scopeLength: UInt32 = 0
                 
-                let scopeBuffer = UnsafeMutablePointer<UnsafePointer<UInt8>>()
+                let scopeBuffer = UnsafeMutablePointer<UnsafePointer<UInt8>>.alloc(1)
+                
+                defer { scopeBuffer.destroy(); scopeBuffer.dealloc(1) }
                 
                 let buffer = bson_iter_codewscope(&iterator, &codeLength, &scopeLength, scopeBuffer)
                 

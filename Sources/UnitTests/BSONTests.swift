@@ -56,7 +56,7 @@ class BSONTests: XCTestCase {
             
             document["code"] = .Code(BSON.Code("js code"))
             
-            //document["code with scope"] = .Code(BSON.Code("JS code", scope: ["myVariable": .String("value")]))
+            document["code with scope"] = .Code(BSON.Code("JS code", scope: ["myVariable": .String("value")]))
             
             document["timestamp"] = .Timestamp(BSON.Timestamp(time: 10, oridinal: 1))
             
