@@ -55,7 +55,18 @@ class BSONTests: XCTestCase {
         }
     }
     
-    func testToJSONString() {
+    func testJSONString() {
+        
+        let document = sampleDocument()
+        
+        print("Document: \n\(document)\n")
+        
+        let jsonString = BSON.toJSONString(document)
+        
+        print("JSON: \n\(jsonString)\n")
+    }
+    
+    func testJSONEncodable() {
         
         let document = sampleDocument()
         
@@ -72,7 +83,7 @@ class BSONTests: XCTestCase {
         
         let convertedJSON = document.toJSON()
         
-        print("Converted JSON: \n\(convertedJSON)\n")        
+        print("Converted JSON: \n\(convertedJSON)\n")
         
         XCTAssert(parsedJSON == convertedJSON, "Converted JSON should equal parsed JSON")
     }
