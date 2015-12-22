@@ -31,7 +31,7 @@ class BSONTests: XCTestCase {
             
             numbersDocument["int32"] = .Number(.Integer32(1000))
             
-            numbersDocument["in64"] = .Number(.Integer64(1000))
+            numbersDocument["int64"] = .Number(.Integer64(1000))
             
             document["numbersDocument"] = .Document(numbersDocument)
             
@@ -58,6 +58,8 @@ class BSONTests: XCTestCase {
             document["maxkey"] = .Key(.Maximum)
         }
         
+        print("Document: \n\(document)")
+        
         guard let unsafePointer = BSON.unsafePointerFromDocument(document)
             else { XCTFail("Could not create unsafe pointer"); return }
         
@@ -66,7 +68,9 @@ class BSONTests: XCTestCase {
         guard let newDocument = BSON.documentFromUnsafePointer(unsafePointer)
             else { XCTFail("Could not create document from unsafe pointer"); return }
         
-        XCTAssert(newDocument == document)
+        print("New Document: \n\(document)")
+        
+        XCTAssert(newDocument == document, "\(newDocument) == \(document)")
     }
     
 }

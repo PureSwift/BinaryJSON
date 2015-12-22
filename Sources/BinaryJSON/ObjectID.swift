@@ -17,7 +17,7 @@ import SwiftFoundation
 public extension BSON {
     
     /// BSON Object Identifier. 
-    public struct ObjectID: ByteValueType, RawRepresentable, Equatable, Hashable {
+    public struct ObjectID: ByteValueType, RawRepresentable, Equatable, Hashable, CustomStringConvertible {
         
         // MARK: - Properties
         
@@ -97,6 +97,13 @@ public extension BSON.ObjectID {
         
         return String.fromCString(stringPointer)!
     }
+}
+
+// MARK: - CustomStringConvertible
+
+public extension BSON.ObjectID {
+    
+    var description: String { return rawValue }
 }
 
 // MARK: - Equatable

@@ -69,7 +69,7 @@ public struct BSON {
         }
     }
     
-    public enum Number {
+    public enum Number: Equatable {
         
         case Boolean(Bool)
         
@@ -80,7 +80,7 @@ public struct BSON {
         case Double(DoubleValue)
     }
     
-    public struct Binary {
+    public struct Binary: Equatable {
         
         public enum Subtype {
             
@@ -105,7 +105,7 @@ public struct BSON {
     }
     
     /// Represents a string of Javascript code.
-    public struct Code {
+    public struct Code: Equatable {
         
         public var code: String
         
@@ -124,7 +124,7 @@ public struct BSON {
         case Maximum
     }
         
-    public struct Timestamp {
+    public struct Timestamp: Equatable {
         
         /// Seconds since the Unix epoch
         public var time: UInt32
@@ -139,7 +139,7 @@ public struct BSON {
         }
     }
     
-    public struct RegularExpression {
+    public struct RegularExpression: Equatable {
         
         public var pattern: String
         
@@ -338,6 +338,20 @@ public func ==(lhs: BSON.Value, rhs: BSON.Value) -> Bool {
         
     case let (.Document(leftValue), .Document(rightValue)): return leftValue == rightValue
         
+    case let (.Date(leftValue), .Date(rightValue)): return leftValue == rightValue
+        
+    case let (.Timestamp(leftValue), .Timestamp(rightValue)): return leftValue == rightValue
+        
+    case let (.Binary(leftValue), .Binary(rightValue)): return leftValue == rightValue
+        
+    case let (.Code(leftValue), .Code(rightValue)): return leftValue == rightValue
+        
+    case let (.ObjectID(leftValue), .ObjectID(rightValue)): return leftValue == rightValue
+        
+    case let (.RegularExpression(leftValue), .RegularExpression(rightValue)): return leftValue == rightValue
+        
+    case let (.Key(leftValue), .Key(rightValue)): return leftValue == rightValue
+        
     default: return false
     }
 }
@@ -356,6 +370,32 @@ public func ==(lhs: BSON.Number, rhs: BSON.Number) -> Bool {
         
     default: return false
     }
+}
+
+public func ==(lhs: BSON.Timestamp, rhs: BSON.Timestamp) -> Bool {
+    
+    return lhs.time == rhs.time && lhs.oridinal == rhs.oridinal
+}
+
+public func ==(lhs: BSON.Binary, rhs: BSON.Binary) -> Bool {
+    
+    return lhs.data == rhs.data && lhs.subtype == rhs.subtype
+}
+
+public func ==(lhs: BSON.Code, rhs: BSON.Code) -> Bool {
+    
+    if let leftScope = lhs.scope {
+        
+        guard let rightScope = rhs.scope where rightScope == leftScope
+            else { return false }
+    }
+    
+    return lhs.code == rhs.code
+}
+
+public func ==(lhs: BSON.RegularExpression, rhs: BSON.RegularExpression) -> Bool {
+    
+    return lhs.pattern == rhs.pattern && lhs.options == rhs.options
 }
 
 // MARK: - Typealiases
