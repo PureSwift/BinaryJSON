@@ -18,6 +18,8 @@
 		6EE709561C2747E500573EE4 /* Reader.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6EE709551C2747E500573EE4 /* Reader.swift */; };
 		6EE709581C274FDA00573EE4 /* Error.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6EE709571C274FDA00573EE4 /* Error.swift */; };
 		6EF6DB231C1E942800D38C7B /* ObjectID.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6EF6DB221C1E942800D38C7B /* ObjectID.swift */; };
+		6EFE5AD41C28DE9B00C3007F /* SwiftFoundation.framework in Copy Frameworks */ = {isa = PBXBuildFile; fileRef = 6EFE5AD21C28DE8B00C3007F /* SwiftFoundation.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		6EFE5AD61C28DEC100C3007F /* bson.framework in Copy Frameworks */ = {isa = PBXBuildFile; fileRef = 6EFE5AD51C28DEBB00C3007F /* bson.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -29,6 +31,21 @@
 			remoteInfo = BSON;
 		};
 /* End PBXContainerItemProxy section */
+
+/* Begin PBXCopyFilesBuildPhase section */
+		6EFE5AD31C28DE8F00C3007F /* Copy Frameworks */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "";
+			dstSubfolderSpec = 10;
+			files = (
+				6EFE5AD61C28DEC100C3007F /* bson.framework in Copy Frameworks */,
+				6EFE5AD41C28DE9B00C3007F /* SwiftFoundation.framework in Copy Frameworks */,
+			);
+			name = "Copy Frameworks";
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
 		6E68254E1C1FDAB7006C6FF8 /* Extensions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Extensions.swift; sourceTree = "<group>"; };
@@ -45,6 +62,8 @@
 		6EE709551C2747E500573EE4 /* Reader.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Reader.swift; sourceTree = "<group>"; };
 		6EE709571C274FDA00573EE4 /* Error.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Error.swift; sourceTree = "<group>"; };
 		6EF6DB221C1E942800D38C7B /* ObjectID.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ObjectID.swift; sourceTree = "<group>"; };
+		6EFE5AD21C28DE8B00C3007F /* SwiftFoundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SwiftFoundation.framework; path = ../Carthage/Build/Mac/SwiftFoundation.framework; sourceTree = "<group>"; };
+		6EFE5AD51C28DEBB00C3007F /* bson.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = bson.framework; path = ../Carthage/Build/Mac/bson.framework; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -69,6 +88,7 @@
 		6ED88B441C1E226A00DF07E3 = {
 			isa = PBXGroup;
 			children = (
+				6EFE5AD11C28DE6F00C3007F /* Dependencies */,
 				6ED88B681C1E22F300DF07E3 /* Sources */,
 				6ED88B501C1E226A00DF07E3 /* BinaryJSON */,
 				6ED88B5C1C1E226A00DF07E3 /* BinaryJSONTests */,
@@ -136,6 +156,15 @@
 			path = UnitTests;
 			sourceTree = "<group>";
 		};
+		6EFE5AD11C28DE6F00C3007F /* Dependencies */ = {
+			isa = PBXGroup;
+			children = (
+				6EFE5AD51C28DEBB00C3007F /* bson.framework */,
+				6EFE5AD21C28DE8B00C3007F /* SwiftFoundation.framework */,
+			);
+			name = Dependencies;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXHeadersBuildPhase section */
@@ -175,6 +204,7 @@
 				6ED88B541C1E226A00DF07E3 /* Sources */,
 				6ED88B551C1E226A00DF07E3 /* Frameworks */,
 				6ED88B561C1E226A00DF07E3 /* Resources */,
+				6EFE5AD31C28DE8F00C3007F /* Copy Frameworks */,
 			);
 			buildRules = (
 			);
@@ -406,7 +436,8 @@
 			buildSettings = {
 				CLANG_ENABLE_MODULES = YES;
 				COMBINE_HIDPI_IMAGES = YES;
-				INFOPLIST_FILE = BSONTests/Info.plist;
+				FRAMEWORK_SEARCH_PATHS = $SRCROOT/../Carthage/Build/Mac;
+				INFOPLIST_FILE = BinaryJSONTests/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks @loader_path/../Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = org.pureswift.BSONTests;
 				PRODUCT_NAME = BinaryJSONTests;
@@ -419,7 +450,8 @@
 			buildSettings = {
 				CLANG_ENABLE_MODULES = YES;
 				COMBINE_HIDPI_IMAGES = YES;
-				INFOPLIST_FILE = BSONTests/Info.plist;
+				FRAMEWORK_SEARCH_PATHS = $SRCROOT/../Carthage/Build/Mac;
+				INFOPLIST_FILE = BinaryJSONTests/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks @loader_path/../Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = org.pureswift.BSONTests;
 				PRODUCT_NAME = BinaryJSONTests;

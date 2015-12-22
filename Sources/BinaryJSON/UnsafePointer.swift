@@ -151,7 +151,7 @@ private extension BSON {
             
         case let .Document(childDocument):
             
-            let childDocumentPointer = UnsafeMutablePointer<bson_t>()
+            let childDocumentPointer = bson_new()
             
             guard bson_append_document_begin(documentPointer, key, keyLength, childDocumentPointer)
                 else { return false }
@@ -324,11 +324,13 @@ private extension BSON {
                 
             case BSON_TYPE_REGEX:
                 
-                let optionsBuffer = UnsafeMutablePointer<UnsafePointer<CChar>>()
+                let optionsBufferPointer = UnsafeMutablePointer<UnsafePointer<CChar>>()
                 
-                let patternBuffer = bson_iter_regex(&iterator, optionsBuffer)
+                let patternBuffer = bson_iter_regex(&iterator, optionsBufferPointer)
                 
-                let options = String.fromCString(optionsBuffer.memory)!
+                let optionsBuffer = optionsBufferPointer.memory
+                
+                let options = String.fromCString(optionsBuffer)!
                 
                 let pattern = String.fromCString(patternBuffer)!
                 
@@ -344,7 +346,7 @@ private extension BSON {
                 
                 let codeString = String.fromCString(buffer)!
                 
-                let code = Code(code: codeString)
+                let code = Code(codeString)
                 
                 value = .Code(code)
                 
@@ -365,9 +367,10 @@ private extension BSON {
                 guard bson_init_static(&scopeBSON, scopeBuffer.memory, Int(scopeLength))
                     else { return false }
                 
-                let scopeDocument = documentFromUnsafePointer(&scopeBSON)
+                guard let scopeDocument = documentFromUnsafePointer(&scopeBSON)
+                    else { fatalError("Could not ") }
                 
-                let code = Code(code: codeString, scope: scopeDocument)
+                let code = Code(codeString, scope: scopeDocument)
                 
                 value = .Code(code)
                 

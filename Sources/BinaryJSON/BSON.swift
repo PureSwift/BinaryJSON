@@ -111,7 +111,7 @@ public struct BSON {
         
         public var scope: BSON.Document?
         
-        public init(code: String, scope: BSON.Document? = nil) {
+        public init(_ code: String, scope: BSON.Document? = nil) {
             
             self.code = code
             self.scope = scope
@@ -365,6 +365,4 @@ public func ==(lhs: BSON.Number, rhs: BSON.Number) -> Bool {
 public typealias DataValue = Data
 
 public typealias DateValue = Date
-
-
 
