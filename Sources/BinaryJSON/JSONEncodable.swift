@@ -125,7 +125,11 @@ extension BSON.Timestamp: JSONEncodable {
 
 extension BSON.Binary: JSONEncodable {
     
-    private static var JSONKey: String { return "$binary" }
+    private enum JSONKey: String {
+        
+        case binary = "$binary"
+        case type = "$type"
+    }
     
     public func toJSON() -> JSON.Value {
         
@@ -133,8 +137,10 @@ extension BSON.Binary: JSONEncodable {
         
         guard let base64String = String(UTF8Data: base64EncodedData)
             else { fatalError("Could not create string from Base64 data") }
+                
+        let subtypeHexString = String(format:"%02hhX", subtype.rawValue)
         
-        return .Object([BSON.Binary.JSONKey: .String(base64String)])
+        return .Object([JSONKey.binary.rawValue: .String(base64String), JSONKey.type.rawValue: .String(subtypeHexString)])
     }
 }
 

@@ -82,15 +82,15 @@ public struct BSON {
     
     public struct Binary: Equatable {
         
-        public enum Subtype {
+        public enum Subtype: Byte {
             
-            case Generic
-            case Function
-            case Old
-            case UUID
-            case UUIDOld
-            case MD5
-            case User
+            case Generic    = 0x00
+            case Function   = 0x01
+            case Old        = 0x02
+            case UUIDOld    = 0x03
+            case UUID       = 0x04
+            case MD5        = 0x05
+            case User       = 0x80
         }
         
         public var data: Data

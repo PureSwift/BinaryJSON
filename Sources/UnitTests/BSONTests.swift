@@ -65,14 +65,14 @@ class BSONTests: XCTestCase {
         
         print("JSON: \n\(jsonString)\n")
         
-        let convertedJSON = document.toJSON()
-        
-        print("Converted JSON: \n\(convertedJSON)\n")
-        
         guard let parsedJSON = JSON.Value(string: jsonString)
             else { XCTFail("Could not parse JSON string"); return }
         
         print("Parsed JSON: \n\(parsedJSON)\n")
+        
+        let convertedJSON = document.toJSON()
+        
+        print("Converted JSON: \n\(convertedJSON)\n")        
         
         XCTAssert(parsedJSON == convertedJSON, "Converted JSON should equal parsed JSON")
     }
