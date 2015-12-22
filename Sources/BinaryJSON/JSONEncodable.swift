@@ -54,7 +54,7 @@ extension BSON.Value: JSONEncodable {
             
         case .Null: return .Null
             
-        case let .Number(number): number.toJSON()
+        case let .Number(number): return number.toJSON()
             
         case let .String(value): return .String(value)
             
@@ -71,6 +71,10 @@ extension BSON.Value: JSONEncodable {
         case let .Code(code): return code.toJSON()
             
         case let .ObjectID(objectID): return objectID.toJSON()
+            
+        case let .RegularExpression(regularExpression): return regularExpression.toJSON()
+            
+        case let .Date(date): return .Object(["$date": .Number(.Double(date.timeIntervalSince1970))])
         }
     }
 }
@@ -151,7 +155,24 @@ extension BSON.Code: JSONEncodable {
 
 extension BSON.ObjectID: JSONEncodable {
     
+    private static var JSONKey: String { return "$oid" }
     
+    public func toJSON() -> JSON.Value {
+        
+        return .Object([BSON.ObjectID.JSONKey: .String(self.rawValue)])
+    }
 }
 
-
+extension BSON.RegularExpression: JSONEncodable {
+    
+    private enum JSONKey: String {
+        
+        case regex = "$regex"
+        case options = "$options"
+    }
+    
+    public func toJSON() -> JSON.Value {
+        
+        return .Object([JSONKey.regex.rawValue: .String(pattern), JSONKey.options.rawValue: .String(options), ])
+    }
+}

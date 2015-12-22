@@ -64,6 +64,24 @@ class BSONTests: XCTestCase {
         let jsonString = BSON.toJSONString(document)
         
         print("JSON: \n\(jsonString)\n")
+        
+        let convertedJSON = document.toJSON()
+        
+        print("Converted JSON: \n\(convertedJSON)\n")
+        
+        /*
+        let parsedJSON = JSON.Value(string: jsonString)
+        
+        print("Parsed JSON: \n\(parsedJSON)\n")
+        
+        XCTAssert(parsedJSON == convertedJSON)
+        */
+        
+        let convertedJSONString = convertedJSON.toString([])!
+        
+        print("Converted JSON String: \n\(convertedJSONString)\n")
+        
+        XCTAssert(jsonString == convertedJSONString)
     }
 }
 
@@ -75,9 +93,7 @@ func sampleDocument() -> BSON.Document {
     
     // Date is more precise than supported by BSON, so equality fails
     let date = Date(timeIntervalSince1970: time)
-    
-    print("Date: \(date)")
-    
+        
     var document = BSON.Document()
     
     // build BSON document
