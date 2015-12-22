@@ -326,7 +326,9 @@ private extension BSON {
                 
             case BSON_TYPE_REGEX:
                 
-                let optionsBufferPointer = UnsafeMutablePointer<UnsafePointer<CChar>>()
+                let optionsBufferPointer = UnsafeMutablePointer<UnsafePointer<CChar>>.alloc(1)
+                
+                defer { optionsBufferPointer.dealloc(1) }
                 
                 let patternBuffer = bson_iter_regex(&iterator, optionsBufferPointer)
                 

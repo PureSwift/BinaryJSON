@@ -34,11 +34,11 @@ class BSONTests: XCTestCase {
             
             var numbersDocument = BSON.Document()
             
-            numbersDocument["double"] = .Number(.Double(1000.111))
+            numbersDocument["double"] = .Number(.Double(1000.1111))
             
-            numbersDocument["int32"] = .Number(.Integer32(1000))
+            numbersDocument["int32"] = .Number(.Integer32(32))
             
-            numbersDocument["int64"] = .Number(.Integer64(1000))
+            numbersDocument["int64"] = .Number(.Integer64(64))
             
             document["numbersDocument"] = .Document(numbersDocument)
             
@@ -52,7 +52,7 @@ class BSONTests: XCTestCase {
             
             document["null"] = .Null
             
-            //document["regex"] = .RegularExpression(BSON.RegularExpression("pattern", options: "\\w"))
+            document["regex"] = .RegularExpression(BSON.RegularExpression("pattern", options: "\\w"))
             
             document["code"] = .Code(BSON.Code("js code"))
             
