@@ -69,19 +69,12 @@ class BSONTests: XCTestCase {
         
         print("Converted JSON: \n\(convertedJSON)\n")
         
-        /*
-        let parsedJSON = JSON.Value(string: jsonString)
+        guard let parsedJSON = JSON.Value(string: jsonString)
+            else { XCTFail("Could not parse JSON string"); return }
         
         print("Parsed JSON: \n\(parsedJSON)\n")
         
-        XCTAssert(parsedJSON == convertedJSON)
-        */
-        
-        let convertedJSONString = convertedJSON.toString([])!
-        
-        print("Converted JSON String: \n\(convertedJSONString)\n")
-        
-        XCTAssert(jsonString == convertedJSONString)
+        XCTAssert(parsedJSON == convertedJSON, "Converted JSON should equal parsed JSON")
     }
 }
 
@@ -121,7 +114,7 @@ func sampleDocument() -> BSON.Document {
         
         document["null"] = .Null
         
-        document["regex"] = .RegularExpression(BSON.RegularExpression("pattern", options: "\\w"))
+        document["regex"] = .RegularExpression(BSON.RegularExpression("pattern", options: ""))
         
         document["code"] = .Code(BSON.Code("js code"))
         
