@@ -1,2 +1,2 @@
-github "PureSwift/SwiftFoundation"
+github "PureSwift/SwiftFoundation" "develop"
 github "PureSwift/libbson-xcode" "master"
