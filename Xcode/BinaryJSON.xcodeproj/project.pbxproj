@@ -9,7 +9,6 @@
 /* Begin PBXBuildFile section */
 		6E68254F1C1FDAB7006C6FF8 /* Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6E68254E1C1FDAB7006C6FF8 /* Extensions.swift */; };
 		6E8D798C1C2928610016893F /* JSONDecodable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6E8D798B1C2928610016893F /* JSONDecodable.swift */; };
-		6E8D798D1C2932740016893F /* JSONEncodable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6ED88B711C1E359200DF07E3 /* JSONEncodable.swift */; };
 		6ED88B521C1E226A00DF07E3 /* BSON.h in Headers */ = {isa = PBXBuildFile; fileRef = 6ED88B511C1E226A00DF07E3 /* BSON.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		6ED88B591C1E226A00DF07E3 /* BinaryJSON.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6ED88B4E1C1E226A00DF07E3 /* BinaryJSON.framework */; };
 		6ED88B6C1C1E230700DF07E3 /* BSON.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6ED88B6B1C1E230700DF07E3 /* BSON.swift */; };
@@ -285,7 +284,6 @@
 				6EF6DB231C1E942800D38C7B /* ObjectID.swift in Sources */,
 				6ED88B741C1E35B400DF07E3 /* UnsafePointer.swift in Sources */,
 				6EDC5C271C1FC1970072C905 /* Context.swift in Sources */,
-				6E8D798D1C2932740016893F /* JSONEncodable.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

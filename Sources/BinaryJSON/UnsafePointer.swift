@@ -253,7 +253,7 @@ private extension BSON {
                 
                 var length: UInt32 = 0
                 
-                let bufferPointer = UnsafeMutablePointer<UnsafePointer<UInt8>>()
+                let bufferPointer = UnsafeMutablePointer<UnsafePointer<UInt8>>.alloc(1)
                 
                 defer { bufferPointer.dealloc(1) }
                 

@@ -99,7 +99,7 @@ class BSONTests: XCTestCase {
             XCTAssert(newDocument == document, "\(newDocument) == \(document)")
         }
     }
-    
+    /*
     func testToJSONString() {
         
         var document = BSON.Document()
@@ -151,5 +151,6 @@ class BSONTests: XCTestCase {
         
         print("JSON: \n\(jsonString)\n")
     }
+    */
     
 }
