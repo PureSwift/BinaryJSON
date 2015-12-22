@@ -48,6 +48,8 @@ class BSONTests: XCTestCase {
             
             document["objectID"] = .ObjectID(BSON.ObjectID())
             
+            document["data"] = .Binary(BSON.Binary(data: "test".toUTF8Data()))
+            
             document["datetime"] = .Date(date)
             
             document["null"] = .Null

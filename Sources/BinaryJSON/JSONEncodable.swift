@@ -64,7 +64,9 @@ extension BSON.Value: JSONEncodable {
             
         case let .Key(key): return key.toJSON()
             
-        case let .
+        case let .Timestamp(timestamp): return timestamp.toJSON()
+            
+        case let .Binary(binary): return Binary.toJSON()
         }
     }
 }
@@ -100,5 +102,21 @@ extension BSON.Key: JSONEncodable {
     }
 }
 
+extension BSON.Timestamp: JSONEncodable {
+    
+    private enum JSONKey: String {
+        
+        case t, i
+    }
+    
+    public func toJSON() -> JSON.Value {
+        
+        return .Object([JSONKey.t.rawValue: .Number(.Integer(Int(time))), JSONKey.i.rawValue: .Number(.Integer(Int(oridinal)))])
+    }
+}
 
+extension BSON.Binary: BSONEncodable {
+    
+    
+}
 

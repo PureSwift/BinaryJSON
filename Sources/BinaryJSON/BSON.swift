@@ -127,10 +127,10 @@ public struct BSON {
         
     public struct Timestamp: Equatable {
         
-        /// Seconds since the Unix epoch
+        /// Seconds since the Unix epoch.
         public var time: UInt32
         
-        /// Prdinal for operations within a given second
+        /// Prdinal for operations within a given second. 
         public var oridinal: UInt32
         
         public init(time: UInt32, oridinal: UInt32) {
