@@ -26,6 +26,8 @@ public protocol BSONDecodable {
 
 // MARK: - SwiftFoundation Types
 
+// MARK: Null
+
 extension SwiftFoundation.Null: BSONEncodable {
     
     public func toBSON() -> BSON.Value { return .Null }
@@ -36,6 +38,23 @@ extension SwiftFoundation.Null: BSONDecodable {
     public init?(BSONValue: BSON.Value) {
         
         guard let value = BSONValue.rawValue as? Null else { return nil }
+        
+        self = value
+    }
+}
+
+// MARK: Date
+
+extension SwiftFoundation.Date: BSONEncodable {
+    
+    public func toBSON() -> BSON.Value { return .Date(self) }
+}
+
+extension SwiftFoundation.Date: BSONDecodable {
+    
+    public init?(BSONValue: BSON.Value) {
+        
+        guard let value = BSONValue.rawValue as? Date else { return nil }
         
         self = value
     }
@@ -206,3 +225,4 @@ public extension RawRepresentable where RawValue: BSONDecodable {
         self.init(rawValue: rawValue)
     }
 }
+
