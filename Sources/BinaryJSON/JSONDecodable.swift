@@ -1,0 +1,19 @@
+//
+//  JSONDecodable.swift
+//  BinaryJSON
+//
+//  Created by Alsey Coleman Miller on 12/22/15.
+//  Copyright © 2015 PureSwift. All rights reserved.
+//
+
+#if os(OSX)
+    import bson
+#elseif os(Linux)
+    import CBSON
+#endif
+
+import SwiftFoundation
+
+
+
+

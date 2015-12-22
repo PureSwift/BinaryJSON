@@ -118,6 +118,7 @@ public struct BSON {
         }
     }
     
+    /// BSON maximum and minimum representable types.
     public enum Key {
         
         case Minimum

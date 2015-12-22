@@ -18,7 +18,7 @@ import SwiftFoundation
 
 class BSONTests: XCTestCase {
     
-    func testUnsafePoiner() {
+    func testUnsafePointer() {
         
         let time = TimeInterval(Int(TimeIntervalSince1970()))
         
@@ -98,7 +98,7 @@ class BSONTests: XCTestCase {
         }
     }
     
-    func testToJSON() {
+    func testToJSONString() {
         
         var document = BSON.Document()
         
