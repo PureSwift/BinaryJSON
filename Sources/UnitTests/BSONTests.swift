@@ -44,7 +44,7 @@ class BSONTests: XCTestCase {
             
             document["string"] = .String("Text")
             
-            //document["array"]
+            document["array"] = .Array([.Document(["key": .Array([.String("subarray string")])])])
             
             document["objectID"] = .ObjectID(BSON.ObjectID())
             
@@ -65,19 +65,41 @@ class BSONTests: XCTestCase {
             document["maxkey"] = .Key(.Maximum)
         }
         
-        print("Document: \n\(document)")
+        // create from pointer
+        do {
+            
+            print("Document: \n\(document)")
+            
+            guard let unsafePointer = BSON.unsafePointerFromDocument(document)
+                else { XCTFail("Could not create unsafe pointer"); return }
+            
+            defer { bson_destroy(unsafePointer) }
+            
+            guard let newDocument = BSON.documentFromUnsafePointer(unsafePointer)
+                else { XCTFail("Could not create document from unsafe pointer"); return }
+            
+            print("New Document: \n\(document)")
+            
+            XCTAssert(newDocument == document, "\(newDocument) == \(document)")
+        }
         
-        guard let unsafePointer = BSON.unsafePointerFromDocument(document)
-            else { XCTFail("Could not create unsafe pointer"); return }
-        
-        defer { bson_destroy(unsafePointer) }
-        
-        guard let newDocument = BSON.documentFromUnsafePointer(unsafePointer)
-            else { XCTFail("Could not create document from unsafe pointer"); return }
-        
-        print("New Document: \n\(document)")
-        
-        XCTAssert(newDocument == document, "\(newDocument) == \(document)")
+        // try to create a 2nd time, to make sure we didnt modify the unsafe pointer
+        do {
+            
+            print("Document: \n\(document)")
+            
+            guard let unsafePointer = BSON.unsafePointerFromDocument(document)
+                else { XCTFail("Could not create unsafe pointer"); return }
+            
+            defer { bson_destroy(unsafePointer) }
+            
+            guard let newDocument = BSON.documentFromUnsafePointer(unsafePointer)
+                else { XCTFail("Could not create document from unsafe pointer"); return }
+            
+            print("New Document: \n\(document)")
+            
+            XCTAssert(newDocument == document, "\(newDocument) == \(document)")
+        }
     }
     
 }

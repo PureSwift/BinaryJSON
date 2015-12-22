@@ -153,6 +153,8 @@ private extension BSON {
             
             let childDocumentPointer = bson_new()
             
+            defer { bson_destroy(childDocumentPointer) }
+            
             guard bson_append_document_begin(documentPointer, key, keyLength, childDocumentPointer)
                 else { return false }
         
@@ -166,7 +168,9 @@ private extension BSON {
             
         case let .Array(array):
             
-            let childPointer = UnsafeMutablePointer<bson_t>()
+            let childPointer = bson_new()
+            
+            defer { bson_destroy(childPointer) }
             
             guard bson_append_array_begin(documentPointer, key, keyLength, childPointer)
                 else { return false }
@@ -231,29 +235,17 @@ private extension BSON {
                 
             case BSON_TYPE_ARRAY:
                 
-                // TODO: Array
+                var childIterator = bson_iter_t()
                 
-                var arrayLength: UInt32 = 0
+                var childDocument = BSON.Document()
                 
-                var bufferPointer = UnsafeMutablePointer<UnsafePointer<UInt8>>()
+                guard bson_iter_recurse(&iterator, &childIterator) &&
+                    iterate(&childDocument, iterator: &childIterator)
+                    else { return false }
                 
-                defer {
-                    bufferPointer.destroy()
-                    bufferPointer.dealloc(1)
-                }
+                let array = childDocument.map { (key, value) in return value }
                 
-                bson_iter_array(&iterator, &arrayLength, bufferPointer)
-                
-                var bytes: [UInt8] = [UInt8](count: Int(arrayLength), repeatedValue: 0)
-                
-                memcpy(&bytes, bufferPointer.memory, Int(arrayLength))
-                
-                let reader = Reader(data: Data(byteValue: bytes))
-                
-                for (index, document) in EnumerateGenerator(reader).enumerate() {
-                    
-                    
-                }
+                value = .Array(array)
                 
             case BSON_TYPE_BINARY:
                 
