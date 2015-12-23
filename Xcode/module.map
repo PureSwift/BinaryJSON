@@ -1,0 +1,5 @@
+module CBSON [system] {
+    header "/usr/local/include/libbson-1.0/bson.h"
+    link "bson-1.0.0"
+    export *
+}

@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		6E3E14571C2B5FB500AD9F5B /* libbson-1.0.0.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 6E3E14561C2B5FB500AD9F5B /* libbson-1.0.0.dylib */; };
 		6E68254F1C1FDAB7006C6FF8 /* Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6E68254E1C1FDAB7006C6FF8 /* Extensions.swift */; };
 		6E8D798C1C2928610016893F /* JSONDecodable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6E8D798B1C2928610016893F /* JSONDecodable.swift */; };
 		6E8D798E1C29353D0016893F /* JSONEncodable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6ED88B711C1E359200DF07E3 /* JSONEncodable.swift */; };
@@ -20,7 +21,6 @@
 		6EE709581C274FDA00573EE4 /* Error.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6EE709571C274FDA00573EE4 /* Error.swift */; };
 		6EF6DB231C1E942800D38C7B /* ObjectID.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6EF6DB221C1E942800D38C7B /* ObjectID.swift */; };
 		6EFE5AD41C28DE9B00C3007F /* SwiftFoundation.framework in Copy Frameworks */ = {isa = PBXBuildFile; fileRef = 6EFE5AD21C28DE8B00C3007F /* SwiftFoundation.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
-		6EFE5AD61C28DEC100C3007F /* bson.framework in Copy Frameworks */ = {isa = PBXBuildFile; fileRef = 6EFE5AD51C28DEBB00C3007F /* bson.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -40,7 +40,6 @@
 			dstPath = "";
 			dstSubfolderSpec = 10;
 			files = (
-				6EFE5AD61C28DEC100C3007F /* bson.framework in Copy Frameworks */,
 				6EFE5AD41C28DE9B00C3007F /* SwiftFoundation.framework in Copy Frameworks */,
 			);
 			name = "Copy Frameworks";
@@ -49,6 +48,8 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
+		6E3E14531C2B5D5F00AD9F5B /* module.map */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.module-map"; path = module.map; sourceTree = SOURCE_ROOT; };
+		6E3E14561C2B5FB500AD9F5B /* libbson-1.0.0.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = "libbson-1.0.0.dylib"; path = "../../../../../usr/local/lib/libbson-1.0.0.dylib"; sourceTree = "<group>"; };
 		6E68254E1C1FDAB7006C6FF8 /* Extensions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Extensions.swift; sourceTree = "<group>"; };
 		6E8D798B1C2928610016893F /* JSONDecodable.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = JSONDecodable.swift; sourceTree = "<group>"; };
 		6ED88B4E1C1E226A00DF07E3 /* BinaryJSON.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = BinaryJSON.framework; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -65,7 +66,6 @@
 		6EE709571C274FDA00573EE4 /* Error.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Error.swift; sourceTree = "<group>"; };
 		6EF6DB221C1E942800D38C7B /* ObjectID.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ObjectID.swift; sourceTree = "<group>"; };
 		6EFE5AD21C28DE8B00C3007F /* SwiftFoundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SwiftFoundation.framework; path = ../Carthage/Build/Mac/SwiftFoundation.framework; sourceTree = "<group>"; };
-		6EFE5AD51C28DEBB00C3007F /* bson.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = bson.framework; path = ../Carthage/Build/Mac/bson.framework; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -73,6 +73,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				6E3E14571C2B5FB500AD9F5B /* libbson-1.0.0.dylib in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -111,6 +112,7 @@
 			isa = PBXGroup;
 			children = (
 				6ED88B511C1E226A00DF07E3 /* BSON.h */,
+				6E3E14531C2B5D5F00AD9F5B /* module.map */,
 				6ED88B531C1E226A00DF07E3 /* Info.plist */,
 			);
 			path = BinaryJSON;
@@ -162,8 +164,8 @@
 		6EFE5AD11C28DE6F00C3007F /* Dependencies */ = {
 			isa = PBXGroup;
 			children = (
-				6EFE5AD51C28DEBB00C3007F /* bson.framework */,
 				6EFE5AD21C28DE8B00C3007F /* SwiftFoundation.framework */,
+				6E3E14561C2B5FB500AD9F5B /* libbson-1.0.0.dylib */,
 			);
 			name = Dependencies;
 			sourceTree = "<group>";
@@ -408,9 +410,11 @@
 				INFOPLIST_FILE = "$(SRCROOT)/BinaryJSON/Info.plist";
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks @loader_path/Frameworks";
+				LIBRARY_SEARCH_PATHS = /usr/local/lib;
 				PRODUCT_BUNDLE_IDENTIFIER = org.pureswift.BSON;
 				PRODUCT_NAME = BinaryJSON;
 				SKIP_INSTALL = YES;
+				SWIFT_INCLUDE_PATHS = $SRCROOT;
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 			};
 			name = Debug;
@@ -429,9 +433,11 @@
 				INFOPLIST_FILE = "$(SRCROOT)/BinaryJSON/Info.plist";
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks @loader_path/Frameworks";
+				LIBRARY_SEARCH_PATHS = /usr/local/lib;
 				PRODUCT_BUNDLE_IDENTIFIER = org.pureswift.BSON;
 				PRODUCT_NAME = BinaryJSON;
 				SKIP_INSTALL = YES;
+				SWIFT_INCLUDE_PATHS = $SRCROOT;
 			};
 			name = Release;
 		};

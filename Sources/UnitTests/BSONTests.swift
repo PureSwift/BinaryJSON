@@ -6,15 +6,10 @@
 //  Copyright © 2015 PureSwift. All rights reserved.
 //
 
-#if os(OSX)
-    import bson
-#elseif os(Linux)
-    import CBSON
-#endif
-
 import XCTest
 import BinaryJSON
 import SwiftFoundation
+import CBSON
 
 class BSONTests: XCTestCase {
     

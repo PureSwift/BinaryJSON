@@ -6,13 +6,8 @@
 //  Copyright © 2015 PureSwift. All rights reserved.
 //
 
-#if os(OSX)
-    import bson
-#elseif os(Linux)
-    import CBSON
-#endif
-
 import SwiftFoundation
+import CBSON
 
 public extension BSON {
     
