@@ -19,10 +19,13 @@ public extension BSON {
     // BSON Error
     public struct Error: ErrorType {
         
-        let domain: Domain
+        /// The internal library domain of the error.
+        let domain: UInt32
         
+        /// The error code.
         let code: UInt32
         
+        /// Human-readable error message. 
         let message: String
         
         /// Initializes error with the values from the unsafe pointer. 
@@ -31,11 +34,6 @@ public extension BSON {
         public init(unsafePointer: UnsafePointer<bson_error_t>) {
             
             assert(unsafePointer != nil, "Trying to create Error from nil pointer")
-            
-            let domainCode = unsafePointer.memory.domain
-            
-            guard let domain = Domain(rawValue: domainCode)
-                else { fatalError("Unknown Domain \(domainCode)") }
             
             var messageTuple = unsafePointer.memory.message
             
@@ -49,18 +47,9 @@ public extension BSON {
                 return string
             }
             
-            self.domain = domain
+            self.domain = unsafePointer.memory.domain
             self.message = message
             self.code = unsafePointer.memory.code
         }
-    }
-}
-
-public extension BSON.Error {
-    
-    public enum Domain: UInt32 {
-        
-        case JSON = 1
-        case Reader = 2
     }
 }

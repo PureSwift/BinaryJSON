@@ -351,6 +351,7 @@
 				MTL_ENABLE_DEBUG_INFO = YES;
 				ONLY_ACTIVE_ARCH = YES;
 				SDKROOT = macosx;
+				SWIFT_INCLUDE_PATHS = $SRCROOT;
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 				VERSIONING_SYSTEM = "apple-generic";
 				VERSION_INFO_PREFIX = "";
@@ -391,6 +392,8 @@
 				MACOSX_DEPLOYMENT_TARGET = 10.11;
 				MTL_ENABLE_DEBUG_INFO = NO;
 				SDKROOT = macosx;
+				SWIFT_INCLUDE_PATHS = $SRCROOT;
+				SWIFT_OPTIMIZATION_LEVEL = "-Owholemodule";
 				VERSIONING_SYSTEM = "apple-generic";
 				VERSION_INFO_PREFIX = "";
 			};
@@ -414,7 +417,6 @@
 				PRODUCT_BUNDLE_IDENTIFIER = org.pureswift.BSON;
 				PRODUCT_NAME = BinaryJSON;
 				SKIP_INSTALL = YES;
-				SWIFT_INCLUDE_PATHS = $SRCROOT;
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 			};
 			name = Debug;
@@ -437,7 +439,6 @@
 				PRODUCT_BUNDLE_IDENTIFIER = org.pureswift.BSON;
 				PRODUCT_NAME = BinaryJSON;
 				SKIP_INSTALL = YES;
-				SWIFT_INCLUDE_PATHS = $SRCROOT;
 			};
 			name = Release;
 		};
@@ -449,6 +450,7 @@
 				FRAMEWORK_SEARCH_PATHS = $SRCROOT/../Carthage/Build/Mac;
 				INFOPLIST_FILE = BinaryJSONTests/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks @loader_path/../Frameworks";
+				LIBRARY_SEARCH_PATHS = /usr/local/lib;
 				PRODUCT_BUNDLE_IDENTIFIER = org.pureswift.BSONTests;
 				PRODUCT_NAME = BinaryJSONTests;
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
@@ -463,6 +465,7 @@
 				FRAMEWORK_SEARCH_PATHS = $SRCROOT/../Carthage/Build/Mac;
 				INFOPLIST_FILE = BinaryJSONTests/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks @loader_path/../Frameworks";
+				LIBRARY_SEARCH_PATHS = /usr/local/lib;
 				PRODUCT_BUNDLE_IDENTIFIER = org.pureswift.BSONTests;
 				PRODUCT_NAME = BinaryJSONTests;
 			};
