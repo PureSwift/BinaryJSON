@@ -54,6 +54,7 @@
 		6E68254E1C1FDAB7006C6FF8 /* Extensions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Extensions.swift; sourceTree = "<group>"; };
 		6E8D798B1C2928610016893F /* JSONDecodable.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = JSONDecodable.swift; sourceTree = "<group>"; };
 		6E8F20701C2F486E00B82210 /* main.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = main.swift; sourceTree = "<group>"; };
+		6EC34CEC1C2F4F0200C29561 /* Package.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = Package.swift; path = ../Package.swift; sourceTree = "<group>"; };
 		6ED88B4E1C1E226A00DF07E3 /* BinaryJSON.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = BinaryJSON.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		6ED88B511C1E226A00DF07E3 /* BSON.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = BSON.h; sourceTree = "<group>"; };
 		6ED88B531C1E226A00DF07E3 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
@@ -93,6 +94,7 @@
 		6ED88B441C1E226A00DF07E3 = {
 			isa = PBXGroup;
 			children = (
+				6EC34CEC1C2F4F0200C29561 /* Package.swift */,
 				6EFE5AD11C28DE6F00C3007F /* Dependencies */,
 				6ED88B681C1E22F300DF07E3 /* Sources */,
 				6ED88B501C1E226A00DF07E3 /* BinaryJSON */,
