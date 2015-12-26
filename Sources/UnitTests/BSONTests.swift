@@ -13,6 +13,14 @@ import CBSON
 
 class BSONTests: XCTestCase {
     
+    var allTests : [(String, () -> Void)] {
+        return [
+            ("testUnsafePointer", testUnsafePointer),
+            ("testJSONString", testJSONString),
+            ("testJSONEncodable", testJSONEncodable)
+        ]
+    }
+    
     func testUnsafePointer() {
         
         let document = sampleDocument()
