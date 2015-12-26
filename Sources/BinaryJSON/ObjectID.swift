@@ -11,42 +11,44 @@ import CBSON
 
 public extension BSON {
     
-    /// BSON Object Identifier. 
-    public struct ObjectID: ByteValueType, RawRepresentable, Equatable, Hashable, CustomStringConvertible {
+    public typealias ObjectID = BSONObjectID
+}
+
+/// BSON Object Identifier.
+public struct BSONObjectID: ByteValueType, RawRepresentable, Equatable, Hashable, CustomStringConvertible {
+    
+    // MARK: - Properties
+    
+    public typealias ByteValue = (UInt8, UInt8, UInt8, UInt8, UInt8, UInt8, UInt8, UInt8, UInt8, UInt8, UInt8, UInt8)
+    
+    public var byteValue: ByteValue {
         
-        // MARK: - Properties
+        get { return self.internalValue.bytes }
         
-        public typealias ByteValue = (UInt8, UInt8, UInt8, UInt8, UInt8, UInt8, UInt8, UInt8, UInt8, UInt8, UInt8, UInt8)
+        set { self.internalValue.bytes = newValue }
+    }
+    
+    // MARK: - Private Properties
+    
+    private var internalValue: bson_oid_t
+    
+    // MARK: - Initialization
+    
+    /// Default initializer.
+    ///
+    /// Creates a new BSON ObjectID from the specified context, or the default context if none is specified.
+    public init(context: BSON.Context? = nil) {
         
-        public var byteValue: ByteValue {
-            
-            get { return self.internalValue.bytes }
-            
-            set { self.internalValue.bytes = newValue }
-        }
+        var objectID = bson_oid_t()
         
-        // MARK: - Private Properties
+        bson_oid_init(&objectID, context?.internalPointer ?? nil)
         
-        private var internalValue: bson_oid_t
+        self.internalValue = objectID
+    }
+    
+    public init(byteValue: ByteValue) {
         
-        // MARK: - Initialization
-        
-        /// Default initializer. 
-        ///
-        /// Creates a new BSON ObjectID from the specified context, or the default context if none is specified.
-        public init(context: Context? = nil) {
-            
-            var objectID = bson_oid_t()
-            
-            bson_oid_init(&objectID, context?.internalPointer ?? nil)
-            
-            self.internalValue = objectID
-        }
-        
-        public init(byteValue: ByteValue) {
-            
-            self.internalValue = bson_oid_t(bytes: byteValue)
-        }
+        self.internalValue = bson_oid_t(bytes: byteValue)
     }
 }
 

@@ -154,7 +154,7 @@ extension BSON.Code: JSONEncodable {
     }
 }
 
-extension BSON.ObjectID: JSONEncodable {
+extension BSONObjectID: JSONEncodable {
     
     private static var JSONKey: String { return "$oid" }
     
