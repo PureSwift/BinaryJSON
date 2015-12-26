@@ -3,7 +3,7 @@ Pure Swift library for BSON
 
 ## Ubuntu Dependencies
 
-[Install MongoDB on Ubuntu LTS](https://docs.mongodb.org/v3.0/tutorial/install-mongodb-on-ubuntu/)
+Build ```libbson``` [from source](https://github.com/mongodb/libbson).
 
 
 ## OS X Dependencies
