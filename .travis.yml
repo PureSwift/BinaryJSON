@@ -18,5 +18,5 @@ install:
 - curl https://swift.org/builds/ubuntu1404/$SWIFT_VERSION/$SWIFT_VERSION-ubuntu14.04.tar.gz -s | tar xz -C $SWIFT_DIR &> /dev/null
 script:
 - export PATH=$(pwd)/tests/$SWIFT_VERSION-ubuntu14.04/usr/bin:"${PATH}"
-- swift build -c debug
-- .build/debug/UnitTests
+- swift build -c release
+- .build/release/UnitTests
