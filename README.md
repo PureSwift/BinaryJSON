@@ -14,8 +14,13 @@ Pure Swift library for BSON
 1. Build ```libbson``` [from source](https://github.com/mongodb/libbson).
 
 2. Add hard links to shared libraries
-```cp -lf /usr/local/lib/libbson* /usr/lib```
-
+```
+cp -lf /usr/local/lib/libbson* /usr/lib
+```
+3. Fix header
+```
+sudo sed -i 's/<bson.h>/"bson.h"/g' /usr/local/include/libbson-1.0/bcon.h
+```
 
 ## OS X Dependencies
 
