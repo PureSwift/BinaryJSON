@@ -14,6 +14,7 @@ install:
 - sudo make install
 - cd ../
 - sudo cp -lf /usr/local/lib/libbson* /usr/lib
+- sudo sed -i 's/<bson.h>/"bson.h"/g' /usr/local/include/libbson-1.0/bcon.h
 - mkdir $SWIFT_DIR
 - curl https://swift.org/builds/ubuntu1404/$SWIFT_VERSION/$SWIFT_VERSION-ubuntu14.04.tar.gz -s | tar xz -C $SWIFT_DIR &> /dev/null
 script:
