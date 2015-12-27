@@ -13,7 +13,7 @@ install:
 - make
 - sudo make install
 - cd ../
-- cp -lf /usr/local/lib/libbson* /usr/lib
+- sudo cp -lf /usr/local/lib/libbson* /usr/lib
 - mkdir $SWIFT_DIR
 - curl https://swift.org/builds/ubuntu1404/$SWIFT_VERSION/$SWIFT_VERSION-ubuntu14.04.tar.gz -s | tar xz -C $SWIFT_DIR &> /dev/null
 script:
